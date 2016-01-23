@@ -1,21 +1,21 @@
-var productName = process.env.PRODUCT_NAME || "audiences";
-var path = require("path");
-var fs = require("fs");
+var productName = process.env.PRODUCT_NAME || 'audiences';
+var path = require('path');
+var fs = require('fs');
 
 module.exports = {
-	entry: path.resolve(__dirname, "./web/static/js/index.js"),
+	entry: path.resolve(__dirname, './web/static/js/index.js'),
 	context: __dirname,
 	output: {
-		path: "./priv/static/js",
-		filename: "bundle.js"
+		path: './priv/static/js',
+		filename: 'bundle.js'
 	},
 	resolve: {
 		modulesDirectories: [
+			path.resolve(__dirname, './web/static/js/components'),
 			'./node_modules',
-			__dirname + "web/static/js"
 		],
 		extensions: ['', '.js', '.jsx', '.scss'],
-		root: [path.resolve(__dirname, ".")]
+		root: [path.resolve(__dirname, '.')]
 	},
 	eslint: {
 		configFile: path.resolve(__dirname,'./.eslintrc')
@@ -27,7 +27,7 @@ module.exports = {
 				test: /\.jsx?$/,
 				exclude: /node_modules/,
 				query: {
-					presets: ["es2015", "react"]
+					presets: ['es2015', 'react']
 				}
 			},
 			{

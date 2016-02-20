@@ -1,29 +1,49 @@
 import React from 'react';
+import Reflux from 'reflux';
 import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
-import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
-import RaisedButton from 'material-ui/lib/raised-button';
-import ActionAccountCircle from 'material-ui/lib/svg-icons/action/account-circle';
-import Colors from 'material-ui/lib/styles/colors';
+import LogoutButton from 'logoutButton';
 
+import LoginButton from 'loginButton';
+
+import SessionStore from 'sessionStore';
 import SessionActions from 'sessionActions';
 
-const XStyle = {
-	color: 'white',
-	fill: 'white'
-};
-
 const Layout = React.createClass({
+	mixins: [Reflux.listenTo(SessionStore, 'onSessionChange')],
+
+	getInitialState() {
+		return {
+			loggingIn: false,
+			loggedIn: SessionStore.isLoggedIn()
+		};
+	},
+
+	onSessionChange(sessionState) {
+		this.setState({
+			loggingIn: sessionState.loggingIn,
+			loggedIn: SessionStore.isLoggedIn()
+		});
+	},
+
+	handleLogout() {
+		const token = SessionStore.token();
+		SessionActions.logout(token);
+	},
+
 	render() {
+		let rightIcon;
+		if (this.state.loggedIn) {
+			rightIcon = <LogoutButton />
+		} else {
+			rightIcon = <LoginButton loggingIn={this.state.loggingIn} />;
+		}
+
 		return (
 			<div>
 				<AppBar iconElementLeft={<IconButton> </IconButton>}
 								title="Khala"
-								iconElementRight={
-									<RaisedButton onClick={SessionActions.clickLogin} label="Log In" style={{margin: 6}} icon={
-										<ActionAccountCircle />
-									} />
-								}
+								iconElementRight={rightIcon}
 				/>
 				{this.props.children}
 			</div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Router, Route, Link, browserHistory } from 'react-router';
+import { Router, Route, browserHistory } from 'react-router';
 import Khala from 'khala';
 
 const KhalaRouter = React.createClass({
@@ -10,7 +10,7 @@ const KhalaRouter = React.createClass({
 				<Route path="/" component={Khala}>
 				</Route>
 			</Router>
-		)
+		);
 	}
 });
 

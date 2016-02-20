@@ -56,8 +56,13 @@ defmodule Khala.SessionControllerTest do
 
     conn = delete conn(), "/api/v1/sessions", token: token.token
 
+    expired = Token
+              |> Repo.get!(token.id)
+              |> Map.get(:expired)
+
     response = json_response(conn, 200)
 
     assert %{"deleted" => true} = response
+    assert expired
   end
 end

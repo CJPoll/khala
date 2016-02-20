@@ -12,6 +12,7 @@
   "author": "CJPoll",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.9.1",
     "babel": "^6.1.18",
     "babel-core": "^6.2.1",
     "babel-loader": "^6.2.0",

@@ -3,6 +3,6 @@ defmodule Khala.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"
-    assert html_response(conn, 200) =~ "Hello Khala!"
+    assert html_response(conn, 200) =~ "Khala"
   end
 end

@@ -1,6 +1,8 @@
 defmodule Khala.Token do
   use Khala.Web, :model
 
+  alias Khala.Repo
+
   schema "tokens" do
     field :token, :string
     field :expired, :boolean
@@ -21,5 +23,23 @@ defmodule Khala.Token do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def user_for(token_uuid) do
+    token_uuid
+    |> lookup
+    |> Repo.preload(:user)
+    |> Map.get(:user)
+  end
+
+  def lookup(token_uuid) do
+    token = __MODULE__
+            |> Repo.get_by(token: token_uuid)
+  end
+
+  def expire(token) do
+    token
+    |> changeset(%{expired: true})
+    |> Repo.update
   end
 end

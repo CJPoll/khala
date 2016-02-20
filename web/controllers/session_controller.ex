@@ -5,6 +5,7 @@ defmodule Khala.SessionController do
   alias Khala.User
 
   plug :scrub_params, "user" when action in [:create]
+  plug :scrub_params, "token" when action in [:delete]
 
   def create(conn, %{"user" => user_params} = params) do
     case User.login(user_params) do
@@ -13,12 +14,25 @@ defmodule Khala.SessionController do
 
         conn
         |> render(Khala.TokenView, "token.json", %{token: token})
-      {:error, _reason} ->
-        :error
+      {:error, reason} ->
+        conn
+        |> error(401, reason)
     end
   end
 
-  def logout(conn, params) do
+  def delete(conn, %{"token" => token_uuid}) do
+    success = token_uuid
+              |> Token.lookup
+              |> Token.expire
+
+    case success do
+      {:ok, %{expired: true}} ->
+        conn
+        |> render("logout.json", %{})
+      {:error, changset} ->
+        conn
+        |> error(401, %{changeset: changset})
+    end
   end
 
   defp create_token_for(user) do
@@ -29,5 +43,31 @@ defmodule Khala.SessionController do
             |> Repo.insert!
 
     token
+  end
+
+  defp error(conn, code, assigns) do
+    error = code
+            |> error_structure(assigns)
+            |> Poison.encode!
+
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(code, error)
+  end
+
+  defp error_structure(401, %{changeset: changeset}) do
+    filter = fn({error_code, description}) ->
+      description
+    end
+
+    errors = Enum.map(changeset.errors, filter)
+
+    %{errors: errors}
+  end
+
+  defp error_structure(401, _assigns) do
+    errors = ["Invalid login credentials"]
+
+    %{errors: errors}
   end
 end

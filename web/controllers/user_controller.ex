@@ -30,7 +30,7 @@ defmodule Khala.UserController do
 
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(400, error)
+    |> send_resp(code, error)
   end
 
   defp error_structure(400, changeset) do

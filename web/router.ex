@@ -29,6 +29,8 @@ defmodule Khala.Router do
 
     post "/sessions", SessionController, :create
     post "/users", UserController, :create
+
+    delete "/sessions", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.

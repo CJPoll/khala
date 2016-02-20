@@ -41,6 +41,10 @@ defmodule Khala.User do
     |> login(password)
   end
 
+  def login(nil, password) do
+    {:error, :invalid_credentials}
+  end
+
   def login(%__MODULE__{} = user, password) do
     success = valid_password?(password, user.encrypted_password)
     if success, do: {:ok, user}, else: {:error, :invalid_credentials}

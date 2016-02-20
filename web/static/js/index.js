@@ -1,18 +1,14 @@
-import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Khala from 'khala';
+import KhalaRouter from 'router';
+import SessionStore from 'sessionStore';
 
-window.jquery = $;
-window.jQuery = $;
-window.$ = $;
-
-$(document).ready(() => {
+document.addEventListener("DOMContentLoaded", function() {
 	const appDiv = document.getElementById('application');
 
 	ReactDOM.render(
-		React.createElement(Khala),
+		React.createElement(KhalaRouter),
 		appDiv
 	);
 });

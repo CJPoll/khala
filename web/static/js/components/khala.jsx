@@ -2,14 +2,14 @@ import React from 'react';
 
 import Layout from 'layout';
 
-const App = React.createClass({
+const Khala = React.createClass({
 	render() {
 		return (
 			<Layout>
-				<h1> Khala </h1>
+				{this.props.children}
 			</Layout>
 		);
 	}
 });
 
-export default App;
+export default Khala;

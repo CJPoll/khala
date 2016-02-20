@@ -2,6 +2,7 @@ defmodule Khala.Router do
   use Khala.Web, :router
 
   alias Khala.SessionController
+  alias Khala.SessionController
 
   pipeline :browser_session do
     plug Guardian.Plug.VerifySession
@@ -30,6 +31,7 @@ defmodule Khala.Router do
     pipe_through :api
 
     post "/sessions", SessionController, :create
+    post "/users", UserController, :create
   end
 
   # Other scopes may use custom stacks.

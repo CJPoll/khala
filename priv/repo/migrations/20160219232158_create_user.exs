@@ -10,6 +10,6 @@ defmodule Khala.Repo.Migrations.CreateUser do
       timestamps
     end
 
-    unique_index :users, [:email]
+    create unique_index(:users, [:email])
   end
 end

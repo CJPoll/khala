@@ -33,7 +33,9 @@ defmodule Khala.User do
     |> encrypt_password
   end
 
-  def login(%{email: email, password: password}) do
+  def login(%{email: email, password: password}), do: login(%{"email" => email, "password" => password})
+
+  def login(%{"email" => email, "password" => password}) do
     email
     |> from_email
     |> login(password)

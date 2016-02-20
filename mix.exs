@@ -37,6 +37,7 @@ defmodule Khala.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:guardian, "~> 0.9.0"},
+     {:uuid, "~> 1.1"},
      {:comeonin, "~> 2.1"},
      {:cowboy, "~> 1.0"}]
   end

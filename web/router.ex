@@ -1,9 +1,6 @@
 defmodule Khala.Router do
   use Khala.Web, :router
 
-  alias Khala.SessionController
-  alias Khala.SessionController
-
   pipeline :browser_session do
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource

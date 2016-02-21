@@ -8,9 +8,7 @@
     <meta name="author" content="">
 
     <title>Khala Gaming</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500'
-                           rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
   </head>
 
   <body>

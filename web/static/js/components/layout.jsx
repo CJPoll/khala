@@ -2,21 +2,41 @@ import React from 'react';
 import Reflux from 'reflux';
 import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
-import LogoutButton from 'logoutButton';
 
+import LogoutButton from 'logoutButton';
 import LoginButton from 'loginButton';
 
 import SessionStore from 'sessionStore';
 import SessionActions from 'sessionActions';
+import NotificationStore from 'notificationStore';
+
+import RegistrationForm from 'registrationForm';
+import Snackbar from 'material-ui/lib/snackbar';
 
 const Layout = React.createClass({
-	mixins: [Reflux.listenTo(SessionStore, 'onSessionChange')],
+	mixins: [
+		Reflux.listenTo(SessionStore, 'onSessionChange'),
+		Reflux.listenTo(NotificationStore, 'onNotification')
+	],
 
 	getInitialState() {
 		return {
 			loggingIn: false,
-			loggedIn: SessionStore.isLoggedIn()
+			loggedIn: SessionStore.isLoggedIn(),
+			notification: null
 		};
+	},
+
+	onNotification(notification) {
+		this.setState({
+			notification: notification
+		});
+	},
+
+	onNotificationClose() {
+		this.setState({
+			notification: null
+		});
 	},
 
 	onSessionChange(sessionState) {
@@ -46,6 +66,12 @@ const Layout = React.createClass({
 								iconElementRight={rightIcon}
 				/>
 				{this.props.children}
+				<Snackbar
+					open={this.state.notification !== null}
+					message={this.state.notification}
+					autoHideDuration={4000}
+					onRequestClose={this.onNotificationClose}
+				/>
 			</div>
 		);
 	}

@@ -15,6 +15,8 @@ module.exports = {
 			path.resolve(__dirname, './web/static/js/actions'),
 			path.resolve(__dirname, './web/static/js/stores'),
 			path.resolve(__dirname, './web/static/js/lib'),
+			path.resolve(__dirname, './web/static/js/pages'),
+			path.resolve(__dirname, './web/static/css/'),
 			'./node_modules',
 		],
 		extensions: ['', '.js', '.jsx', '.scss'],

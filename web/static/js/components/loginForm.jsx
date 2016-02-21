@@ -5,25 +5,25 @@ import SessionActions from 'sessionActions';
 
 const LoginForm = React.createClass({
 	handleLogin() {
-		const email = document.getElementById('email').value;
-		const password = document.getElementById('password').value;
+		const email = document.getElementById('login_email').value;
+		const password = document.getElementById('login_password').value;
 
 		SessionActions.submitLogin(email, password);
 	},
 
 	render() {
 		return (
-			<form>
+			<form onSubmit={this.handleLogin}>
 				<div>
 					<TextField
-						id="email"
+						id="login_email"
 						floatingLabelText="Email"
 						hintText="your_email@gmail.com"
 						style={{width: '100%'}}/>
 				</div>
 				<div>
 					<TextField
-						id="password"
+						id="login_password"
 						hintText="Password"
 						floatingLabelText="Password"
 						type="password"

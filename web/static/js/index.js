@@ -5,9 +5,14 @@ import KhalaRouter from 'router';
 import SessionStore from 'sessionStore';
 import NotificationStore from 'notificationStore';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
+
 window.App = {};
 window.App.SessionStore = SessionStore;
 window.App.NotificationStore = NotificationStore;
+
 
 document.addEventListener('DOMContentLoaded', function() {
 	const appDiv = document.getElementById('application');

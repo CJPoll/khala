@@ -1,8 +1,8 @@
 import Reflux from 'reflux';
-import _ from 'lodash';
 import SessionActions from 'sessionActions';
 import NotificationActions from 'notificationActions';
-import { browserHistory } from 'react-router';
+import NavigationActions from 'navigationActions';
+import URL from 'url';
 
 const SessionStore = Reflux.createStore({
 	listenables: SessionActions,
@@ -27,25 +27,24 @@ const SessionStore = Reflux.createStore({
 	onLogoutCompleted() {
 		localStorage.removeItem('token', undefined);
 		this.state.token = '';
-		browserHistory.push('/');
+		NavigationActions.changeUrl(URL.page.home);
 		this.trigger(this.state);
 	},
 
 	onSubmitLoginCompleted(token) {
 		localStorage.setItem('token', token);
 		this.state.token = token;
-		this.state.loggingIn = false
-		browserHistory.push('/dashboard');
+		this.state.loggingIn = false;
+		NavigationActions.changeUrl(URL.page.dashboard);
 		this.trigger(this.state);
 	},
 
-	onSubmitLoginFailed(errors) {
-		_.each(errors, (error) => console.error(error));
+	onSubmitLoginFailed() {
 		NotificationActions.notify('Invalid credentials');
 	},
 
 	onLogoutFailed(data) {
-		console.error(data.errors);
+		NotificationActions.notify(data.errors[0]);
 	},
 
 	isLoggedIn() {

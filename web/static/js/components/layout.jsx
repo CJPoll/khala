@@ -1,30 +1,39 @@
 import React from 'react';
 import Reflux from 'reflux';
 import AppBar from 'material-ui/lib/app-bar';
+
+import AppMenu from 'appMenu';
+import LoginButton from 'loginButton';
+import SideNav from 'sideNav';
+import Menu from 'material-ui/lib/svg-icons/navigation/menu';
+import Snackbar from 'material-ui/lib/snackbar';
 import IconButton from 'material-ui/lib/icon-button';
 
-import LogoutButton from 'logoutButton';
-import LoginButton from 'loginButton';
-
+import NavigationStore from 'navigationStore';
+import NavigationActions from 'navigationActions';
 import SessionStore from 'sessionStore';
-import SessionActions from 'sessionActions';
 import NotificationStore from 'notificationStore';
-
-import RegistrationForm from 'registrationForm';
-import Snackbar from 'material-ui/lib/snackbar';
 
 const Layout = React.createClass({
 	mixins: [
 		Reflux.listenTo(SessionStore, 'onSessionChange'),
-		Reflux.listenTo(NotificationStore, 'onNotification')
+		Reflux.listenTo(NotificationStore, 'onNotification'),
+		Reflux.listenTo(NavigationStore, 'onNavigationChange')
 	],
 
 	getInitialState() {
 		return {
 			loggingIn: false,
 			loggedIn: SessionStore.isLoggedIn(),
-			notification: null
+			notification: null,
+			sideNavOpen: false
 		};
+	},
+
+	onNavigationChange(navigationState) {
+		this.setState({
+			sideNavOpen: navigationState.sideNavOpen
+		});
 	},
 
 	onNotification(notification) {
@@ -46,29 +55,30 @@ const Layout = React.createClass({
 		});
 	},
 
-	handleLogout() {
-		const token = SessionStore.token();
-		SessionActions.logout(token);
+	menuClick() {
+		NavigationActions.toggleSideNav();
 	},
 
 	render() {
 		let rightIcon;
 		if (this.state.loggedIn) {
-			rightIcon = <LogoutButton />
+			rightIcon = <AppMenu />;
 		} else {
 			rightIcon = <LoginButton loggingIn={this.state.loggingIn} />;
 		}
 
 		return (
 			<div>
-				<AppBar iconElementLeft={<IconButton> </IconButton>}
-								title="Khala"
-								iconElementRight={rightIcon}
+				<AppBar
+					title="Khala"
+					iconElementLeft={<IconButton onClick={this.menuClick}><Menu /></IconButton>}
+					iconElementRight={rightIcon}
 				/>
 				{this.props.children}
+				<SideNav open={this.state.sideNavOpen} />
 				<Snackbar
 					open={this.state.notification !== null}
-					message={this.state.notification}
+					message={this.state.notification || ''}
 					autoHideDuration={4000}
 					onRequestClose={this.onNotificationClose}
 				/>

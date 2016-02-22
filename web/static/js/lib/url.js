@@ -6,6 +6,12 @@ const URL = {
 
 	user: {
 		create: '/api/v1/users'
+	},
+
+	page: {
+		characterGenerator: '/chargen',
+		home: '/',
+		dashboard: '/dashboard'
 	}
 };
 

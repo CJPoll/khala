@@ -1,5 +1,5 @@
 import React from 'react';
-import TextField from 'material-ui/lib/text-field';
+import Input from 'input';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Row from 'row';
 import ButtonStyles from 'buttonStyles';
@@ -19,32 +19,30 @@ const RegistrationForm = React.createClass({
 		return (
 			<form>
 				<Row>
-					<TextField
+					<Input
+						type="text"
 						id="registration_name"
 						floatingLabelText="Screen Name"
-						hintText="What you want to be seen as"
-						style={{width: '100%'}} />
+						hintText="What you want to be seen as" />
 				</Row>
 				<Row>
-					<TextField
+					<Input
+						type="text"
 						id="registration_email"
 						floatingLabelText="Email"
-						hintText="FluphyKityz@gmail.com"
-						style={{width: '100%'}} />
+						hintText="FluphyKityz@gmail.com" />
 				</Row>
 				<Row>
-					<TextField
+					<Input
+						type="password"
 						id="registration_password"
-						floatingLabelText="Password"
-						type="password"
-						style={{width: '100%'}} />
+						floatingLabelText="Password" />
 				</Row>
 				<Row>
-					<TextField
-						id="registration_password_confirmation"
-						floatingLabelText="Password Confirmation"
+					<Input
 						type="password"
-						style={{width: '100%'}} />
+						id="registration_password_confirmation"
+						floatingLabelText="Password Confirmation" />
 				</Row>
 				<Row>
 					<RaisedButton label="Register" primary={true} style={ButtonStyles.submit} onClick={this.handleRegistration}/>

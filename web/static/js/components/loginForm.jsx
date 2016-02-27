@@ -1,5 +1,5 @@
 import React from 'react';
-import TextField from 'material-ui/lib/text-field';
+import Input from 'input';
 import RaisedButton from 'material-ui/lib/raised-button';
 import SessionActions from 'sessionActions';
 
@@ -15,19 +15,18 @@ const LoginForm = React.createClass({
 		return (
 			<form onSubmit={this.handleLogin}>
 				<div>
-					<TextField
+					<Input
+						type="text"
 						id="login_email"
 						floatingLabelText="Email"
-						hintText="your_email@gmail.com"
-						style={{width: '100%'}}/>
+						hintText="your_email@gmail.com" />
 				</div>
 				<div>
-					<TextField
-						id="login_password"
-						hintText="Password"
-						floatingLabelText="Password"
+					<Input
 						type="password"
-						style={{width: '100%'}}/>
+						floatingLabelText="Password"
+						id="login_password"
+						hintText="Password" />
 				</div>
 				<div>
 					<RaisedButton label="Login" primary={true} onClick={this.handleLogin} />

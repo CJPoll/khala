@@ -15,6 +15,7 @@ const SideNav = React.createClass({
 
 	goToCharacterGenerator() {
 		NavigationActions.changeUrl(URL.page.characterGenerator);
+		NavigationActions.toggleSideNav();
 	},
 
 	render() {

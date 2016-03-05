@@ -10,7 +10,7 @@ const PointsRemaining = React.createClass({
 	render() {
 		return (
 			<Paper zDepth={1} style={this.style}>
-				<div style={{fontSize: '150%'}}>
+				<div style={{fontSize: '100%'}}>
 					Points Remaining: {this.props.value} 
 				</div>
 			</Paper>

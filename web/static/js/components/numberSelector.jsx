@@ -40,7 +40,7 @@ const NumberSelector = React.createClass({
 			<div>
 				<Paper zDepth={1} style={this.style}>
 					<div>
-						<div style={{width: '100%', fontSize: '150%', textAlign: 'right'}}>
+						<div style={{width: '100%', fontSize: '120%', textAlign: 'right'}}>
 							{this.props.label}
 						</div>
 						<div style={{width: '80%', float: 'left', fontSize: '400%'}}>

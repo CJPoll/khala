@@ -1,40 +1,55 @@
 import React from 'react';
-import Input from 'input';
+import Reflux from 'reflux';
 import _ from 'lodash';
 import Row from 'row';
+import NumberSelector from 'numberSelector';
+import CharacterGeneratorActions from 'characterGeneratorActions';
+import CharacterGeneratorStore from 'characterGeneratorStore';
 
 const CharacterGeneratorStatsPage = React.createClass({
+
+	mixins: [
+		Reflux.listenTo(CharacterGeneratorStore, 'onCharacterChange')
+	],
+
 	getInitialState() {
-		return {
-			stats: [
-				'Power',
-				'Skill',
-				'Resilience',
-				'Social',
-				'Physical',
-				'Mental'
-			]
-		};
+		return CharacterGeneratorStore.state;
 	},
 
-	renderStat(stat) {
-		return <Input
-			type="number"
-			style={{width: '33%'}}
-			floatingLabelText={stat} />;
+	onCharacterChange(character) {
+		this.setState(character);
+	},
+
+	onClickUp(stat) {
+		CharacterGeneratorActions.increaseStat(stat);
+	},
+
+	onClickDown(stat) {
+		CharacterGeneratorActions.decreaseStat(stat);
 	},
 
 	renderStats(stats) {
-		return _.map(stats, this.renderStat);
+		let statElements = [];
+
+		_.forOwn(stats, (stat, label) => {
+			statElements.push (
+				<div style={{width: '50%', float: 'left'}}>
+					<NumberSelector property={label} label={label} value={stat} onClickUp={this.onClickUp} onClickDown={this.onClickDown} />
+				</div>
+			);
+		});
+
+		return statElements;
 	},
 
 	render() {
 		const stats = this.state.stats;
+
 		return (
 			<div>
 				<Row>
 					{this.renderStats(stats)}
-				</Row>
+					</Row>
 				<Row>
 				</Row>
 			</div>

@@ -45,7 +45,7 @@ const NumberSelector = React.createClass({
 						</div>
 						<div style={{width: '80%', float: 'left', fontSize: '400%'}}>
 							<div style={{textAlign: 'center'}}>
-								9
+								{this.props.value}
 							</div>
 						</div>
 						<div style={{width: '20%', float: 'left', marginTop: '10px'}}>

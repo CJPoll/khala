@@ -1,5 +1,6 @@
 import Reflux from 'reflux';
 import CharacterGeneratorActions from 'characterGeneratorActions';
+import _ from 'lodash';
 
 const CharacterGeneratorStore = Reflux.createStore({
 	listenables: CharacterGeneratorActions,
@@ -10,37 +11,74 @@ const CharacterGeneratorStore = Reflux.createStore({
 
 	init() {
 		this.state = {
+			pointsRemaining: 60 - (6 * this.minStatValue),
 			stats: {
 				'Power': this.minStatValue,
-				'Social': this.minStatValue,
-				'Skill': this.minStatValue,
 				'Physical': this.minStatValue,
+				'Skill': this.minStatValue,
+				'Mental': this.minStatValue,
 				'Resilience': this.minStatValue,
-				'Mental': this.minStatValue
+				'Social': this.minStatValue
 			}
 		};
 	},
 
 	onIncreaseStat(stat) {
 		if (this.canRaise(stat)) {
-			this.state.stats[stat] += 1;
+			this.increment(stat);
 			this.trigger(this.state);
 		}
 	},
 
 	onDecreaseStat(stat) {
 		if (this.canLower(stat)) {
-			this.state.stats[stat] -= 1;
+			this.decrement(stat);
 			this.trigger(this.state);
 		}
 	},
 
 	canRaise(stat) {
-		return this.state.stats[stat] < this.maxStatValue;
+		return this.notMax(stat) && this.hasPointsRemaining();
 	},
 
 	canLower(stat) {
-		return this.state.stats[stat] > this.minStatValue;
+		return this.notMin(stat);
+	},
+
+	hasPointsRemaining() {
+		return this.pointsRemaining() > 0;
+	},
+
+	notMin(stat) {
+		return this.valueOf(stat) > this.minStatValue;
+	},
+
+	notMax(stat) {
+		return this.valueOf(stat) < this.maxStatValue;
+	},
+
+	increment(stat) {
+		this.state.stats[stat] += 1;
+		this.updatePointsRemaining();
+	},
+
+	decrement(stat) {
+		this.state.stats[stat] -= 1;
+		this.updatePointsRemaining();
+	},
+
+	updatePointsRemaining() {
+		const values = _.map(['Power', 'Social', 'Skill', 'Physical', 'Resilience', 'Mental'], this.valueOf);
+		const sum = _.reduce(values, (value, acc) => value + acc, 0);
+		this.state.pointsRemaining = this.startingPointCount - sum;
+	},
+
+	valueOf(stat) {
+		return this.state.stats[stat];
+	},
+	
+	pointsRemaining() {
+		return this.state.pointsRemaining;
 	}
 });
 

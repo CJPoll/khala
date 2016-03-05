@@ -5,6 +5,7 @@ import Row from 'row';
 import NumberSelector from 'numberSelector';
 import CharacterGeneratorActions from 'characterGeneratorActions';
 import CharacterGeneratorStore from 'characterGeneratorStore';
+import PointsRemaining from 'pointsRemaining';
 
 const CharacterGeneratorStatsPage = React.createClass({
 
@@ -47,6 +48,9 @@ const CharacterGeneratorStatsPage = React.createClass({
 
 		return (
 			<div>
+				<Row>
+					<PointsRemaining value={this.state.pointsRemaining}/>
+				</Row>
 				<Row>
 					{this.renderStats(stats)}
 					</Row>

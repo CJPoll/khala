@@ -47,9 +47,7 @@ const CharacterGeneratorStatsPage = React.createClass({
 	renderCompositeStats() {
 		const stats = this.state.stats;
 
-		return stats.map((name, value) => {
-			return <CompositeStatValue statName={name} statValue={value} key={name + '_composite'} />;
-		});
+		return stats.calculateComposites().map((stat) => <CompositeStatValue statName={stat.statName} statValue={stat.statValue} key={stat.statName + '_composite'} />);
 	},
 
 	render() {

@@ -1,12 +1,13 @@
 import _ from 'lodash';
 
-const CharacterGeneratorStats = function(stats, startingValue, maxValue, maxPoints) {
+const CharacterGeneratorStats = function(stats, composites, startingValue, maxValue, maxPoints) {
 	this.statNames = stats;
 	this.stats = {};
 	_.each(stats, (stat) => this.stats[stat] = startingValue);
 	this.maxValue = maxValue;
 	this.minValue = startingValue;
 	this.maxPoints = maxPoints;
+	this.composites = composites;
 };
 
 CharacterGeneratorStats.prototype.forEach = function(iterator) {
@@ -47,6 +48,21 @@ CharacterGeneratorStats.prototype.canLower = function(stat) {
 
 CharacterGeneratorStats.prototype.canRaise = function(stat) {
 	return this.valueOf(stat) < this.maxValue && this.pointsRemaining() > 0;
+};
+
+CharacterGeneratorStats.prototype.calculateComposites = function() {
+	const compositeStatNames = _.keys(this.composites);
+	const compositeStats = _.map(compositeStatNames, function(compositeStatName) {
+		const baseStats = this.composites[compositeStatName];
+		const statValue = _.reduce(baseStats, function(acc, baseStat) {
+			const statValue = acc * this.valueOf(baseStat);
+			return statValue;
+		}.bind(this), 1);
+
+		return { statName: compositeStatName, statValue: statValue };
+	}.bind(this));
+
+	return compositeStats;
 };
 
 export default CharacterGeneratorStats;

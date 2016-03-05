@@ -12,15 +12,28 @@ const CharacterGeneratorStore = Reflux.createStore({
 	stats: [
 		'Power',
 		'Physical',
-		'Skill',
+		'Finesse',
 		'Mental',
 		'Resilience',
 		'Social'
 	],
+	compositeStats: {
+		Strength: ['Physical', 'Power'],
+		Dexterity: ['Physical', 'Finesse'],
+		Constitution: ['Physical', 'Resilience'],
+
+		Intelligence: ['Mental', 'Power'],
+		Cunning: ['Mental', 'Finesse'],
+		Focus: ['Mental', 'Resilience'],
+
+		Charisma: ['Social', 'Power'],
+		Eloquence: ['Social', 'Finesse'],
+		Composure: ['Social', 'Resilience']
+	},
 
 	init() {
 		this.state = {
-			stats: new CharacterGeneratorStats(this.stats, this.minStatValue, this.maxStatValue, this.startingPointCount)
+			stats: new CharacterGeneratorStats(this.stats, this.compositeStats, this.minStatValue, this.maxStatValue, this.startingPointCount)
 		};
 	},
 

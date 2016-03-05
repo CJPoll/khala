@@ -5,6 +5,7 @@ import NumberSelector from 'numberSelector';
 import CharacterGeneratorActions from 'characterGeneratorActions';
 import CharacterGeneratorStore from 'characterGeneratorStore';
 import PointsRemaining from 'pointsRemaining';
+import CompositeStatValue from 'compositeStatValue';
 
 const CharacterGeneratorStatsPage = React.createClass({
 
@@ -35,12 +36,20 @@ const CharacterGeneratorStatsPage = React.createClass({
 		stats.forEach((label, stat) => {
 			statElements.push (
 				<div style={{width: '50%', float: 'left'}}>
-					<NumberSelector property={label} label={label} value={stat} onClickUp={this.onClickUp} onClickDown={this.onClickDown} />
+					<NumberSelector property={label} label={label} value={stat} onClickUp={this.onClickUp} onClickDown={this.onClickDown} key={label + '_core'}/>
 				</div>
 			);
 		});
 
 		return statElements;
+	},
+
+	renderCompositeStats() {
+		const stats = this.state.stats;
+
+		return stats.map((name, value) => {
+			return <CompositeStatValue statName={name} statValue={value} key={name + '_composite'} />;
+		});
 	},
 
 	render() {
@@ -51,8 +60,9 @@ const CharacterGeneratorStatsPage = React.createClass({
 				</Row>
 				<Row>
 					{this.renderStats()}
-					</Row>
-				<Row>
+				</Row>
+				<Row style={{marginTop: '10px', overflow: 'auto'}}>
+					{this.renderCompositeStats()}
 				</Row>
 			</div>
 		);

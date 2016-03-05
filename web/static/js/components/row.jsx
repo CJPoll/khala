@@ -1,11 +1,14 @@
 import React from 'react';
+import Clearfix from 'clearfix';
 
 const Row = React.createClass({
 	render() {
 		return (
-			<div>
-				{this.props.children}
-			</div>
+			<Clearfix>
+				<div {...this.props}>
+					{this.props.children}
+				</div>
+			</Clearfix>
 		);
 	}
 });

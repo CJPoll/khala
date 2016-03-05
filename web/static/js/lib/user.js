@@ -10,7 +10,7 @@ const User = {
 				password: password,
 				password_confirmation: passwordConfirmation
 			}
-		})
+		});
 	}
 };
 

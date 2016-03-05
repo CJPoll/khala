@@ -16,6 +16,22 @@ module.exports = {
 			2,
 			'always'
 		],
+		'require-jsdoc': [
+			2,
+			{
+				'require': {
+					'FunctionDeclaration': true,
+					'MethodDefinition': true,
+					'ClassDeclaration': false
+				}
+			}
+		],
+		'valid-jsdoc': [
+			2,
+			{
+				'prefer': { 'return': 'return' }
+			}
+		],
 		'global-require' : 2
 	},
 	'env': {

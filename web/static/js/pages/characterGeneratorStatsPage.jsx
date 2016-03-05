@@ -1,6 +1,5 @@
 import React from 'react';
 import Reflux from 'reflux';
-import _ from 'lodash';
 import Row from 'row';
 import NumberSelector from 'numberSelector';
 import CharacterGeneratorActions from 'characterGeneratorActions';
@@ -29,10 +28,11 @@ const CharacterGeneratorStatsPage = React.createClass({
 		CharacterGeneratorActions.decreaseStat(stat);
 	},
 
-	renderStats(stats) {
-		let statElements = [];
+	renderStats() {
+		const statElements = [];
+		const stats = this.state.stats;
 
-		_.forOwn(stats, (stat, label) => {
+		stats.forEach((label, stat) => {
 			statElements.push (
 				<div style={{width: '50%', float: 'left'}}>
 					<NumberSelector property={label} label={label} value={stat} onClickUp={this.onClickUp} onClickDown={this.onClickDown} />
@@ -44,15 +44,13 @@ const CharacterGeneratorStatsPage = React.createClass({
 	},
 
 	render() {
-		const stats = this.state.stats;
-
 		return (
 			<div>
 				<Row>
-					<PointsRemaining value={this.state.pointsRemaining}/>
+					<PointsRemaining value={this.state.stats.pointsRemaining()} />
 				</Row>
 				<Row>
-					{this.renderStats(stats)}
+					{this.renderStats()}
 					</Row>
 				<Row>
 				</Row>

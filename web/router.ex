@@ -21,7 +21,8 @@ defmodule Khala.Router do
   scope "/", Khala do
     pipe_through [:browser, :browser_session] # Use the default browser stack
 
-    get "/*any", PageController, :index
+    get "/", PageController, :index
+    #get "/*any", PageController, :index
   end
 
   scope "/api/v1/", Khala do

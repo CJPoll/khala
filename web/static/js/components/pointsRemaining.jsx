@@ -1,19 +1,17 @@
 import React from 'react';
-import Paper from 'material-ui/lib/paper';
 
 const PointsRemaining = React.createClass({
 	style: {
 		padding: '10px',
-		overflow: 'auto'
+		overflow: 'auto',
+		fontSize: '100%'
 	},
 
 	render() {
 		return (
-			<Paper zDepth={1} style={this.style}>
-				<div style={{fontSize: '100%'}}>
-					Remaining: {this.props.value}
-				</div>
-			</Paper>
+			<div style={this.style}>
+				Remaining: {this.props.value}
+			</div>
 		);
 	}
 });

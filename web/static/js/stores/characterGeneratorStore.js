@@ -8,7 +8,7 @@ const CharacterGeneratorStore = Reflux.createStore({
 
 	minStatValue: 5,
 	maxStatValue: 15,
-	startingPointCount: 65,
+	startingPointCount: 63,
 	stats: [
 		'Physical',
 		'Power',

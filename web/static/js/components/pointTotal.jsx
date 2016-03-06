@@ -5,17 +5,16 @@ import _ from 'lodash';
 const PointTotal = React.createClass({
 	style: {
 		padding: '10px',
-		overflow: 'auto'
+		overflow: 'auto',
+		fontSize: '100%'
 	},
 
 	render() {
 		const total = _.reduce(this.props.value, (acc, stat) => stat.statValue + acc, 0);
 		return (
-			<Paper zDepth={1} style={this.style}>
-				<div style={{fontSize: '100%'}}>
-					Total: {total}
-				</div>
-			</Paper>
+			<div style={this.style}>
+				Total: {total}
+			</div>
 		);
 	}
 });

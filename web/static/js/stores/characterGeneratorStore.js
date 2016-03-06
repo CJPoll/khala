@@ -6,9 +6,9 @@ import CharacterGeneratorStats from 'characterGeneratorStats';
 const CharacterGeneratorStore = Reflux.createStore({
 	listenables: CharacterGeneratorActions,
 
-	minStatValue: 6,
-	maxStatValue: 14,
-	startingPointCount: 60,
+	minStatValue: 5,
+	maxStatValue: 15,
+	startingPointCount: 65,
 	stats: [
 		'Physical',
 		'Power',

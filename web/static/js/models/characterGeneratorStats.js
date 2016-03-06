@@ -53,16 +53,16 @@ CharacterGeneratorStats.prototype.canRaise = function(stat) {
 CharacterGeneratorStats.prototype.calculateComposites = function() {
 	const compositeStatNames = _.keys(this.composites);
 	const compositeStats = _.map(compositeStatNames, function(compositeStatName) {
-		const baseStats = this.composites[compositeStatName];
-		const statValue = _.reduce(baseStats, function(acc, baseStat) {
-			const statValue = acc * this.valueOf(baseStat);
-			return statValue;
-		}.bind(this), 1);
-
+		const statValue = this.valueOfComposite(compositeStatName);
 		return { statName: compositeStatName, statValue: statValue };
 	}.bind(this));
 
 	return compositeStats;
+};
+
+CharacterGeneratorStats.prototype.valueOfComposite = function(compositeStat) {
+	const baseStats = this.composites[compositeStat];
+	return _.reduce(baseStats, (acc, statName) => acc * this.valueOf(statName), 1);
 };
 
 export default CharacterGeneratorStats;

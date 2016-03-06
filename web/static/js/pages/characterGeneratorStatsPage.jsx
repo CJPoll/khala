@@ -6,6 +6,7 @@ import CharacterGeneratorActions from 'characterGeneratorActions';
 import CharacterGeneratorStore from 'characterGeneratorStore';
 import PointsRemaining from 'pointsRemaining';
 import CompositeStatValue from 'compositeStatValue';
+import PointTotal from 'pointTotal';
 
 const CharacterGeneratorStatsPage = React.createClass({
 
@@ -54,7 +55,12 @@ const CharacterGeneratorStatsPage = React.createClass({
 		return (
 			<div>
 				<Row>
-					<PointsRemaining value={this.state.stats.pointsRemaining()} />
+					<div style={{width: '50%', float: 'left'}}>
+						<PointsRemaining value={this.state.stats.pointsRemaining()} />
+					</div>
+					<div style={{width: '50%', float: 'left', textAlign: 'right'}}>
+						<PointTotal value={this.state.stats.calculateComposites()} />
+					</div>
 				</Row>
 				<Row>
 					{this.renderStats()}

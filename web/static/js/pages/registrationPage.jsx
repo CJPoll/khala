@@ -26,7 +26,7 @@ const RegistrationPage = React.createClass({
 
 	render() {
 		if (this.state.loggedIn) {
-			NavigationActions.changeUrl('/dashboard');
+			NavigationActions.changeUrl('/chargen');
 		}
 
 		return (

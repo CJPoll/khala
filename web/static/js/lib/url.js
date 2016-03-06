@@ -11,7 +11,7 @@ const URL = {
 	page: {
 		characterGenerator: '/chargen',
 		home: '/',
-		dashboard: '/dashboard'
+		dashboard: '/chargen'
 	}
 };
 

@@ -22,10 +22,6 @@ const AppMenu = React.createClass({
 				targetOrigin={{horizontal: 'left', vertical: 'top'}}
 			>
 
-				<MenuItem primaryText="Refresh" />
-				<MenuItem primaryText="Send feedback" />
-				<MenuItem primaryText="Settings" />
-				<MenuItem primaryText="Help" />
 				<MenuItem primaryText="Sign out" onClick={this.handleLogout} />
 			</IconMenu>
 		);

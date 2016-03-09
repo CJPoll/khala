@@ -2,21 +2,27 @@ import Reflux from 'reflux';
 import CharacterGeneratorActions from 'characterGeneratorActions';
 import CharacterGeneratorStats from 'characterGeneratorStats';
 
+const stats = [
+	'Physical',
+	'Power',
+	'Mental',
+	'Finesse',
+	'Social',
+	'Resilience'
+];
+
+const minStatValue = 5;
+const maxStatValue = 20;
+const targetStartValue = 12;
+const startingPointCount = (targetStartValue * stats.length) + 3;
 
 const CharacterGeneratorStore = Reflux.createStore({
 	listenables: CharacterGeneratorActions,
 
-	minStatValue: 5,
-	maxStatValue: 15,
-	startingPointCount: 63,
-	stats: [
-		'Physical',
-		'Power',
-		'Mental',
-		'Finesse',
-		'Social',
-		'Resilience'
-	],
+	stats: stats,
+	minStatValue: minStatValue,
+	maxStatValue: maxStatValue,
+	startingPointCount: startingPointCount,
 	compositeStats: {
 		Strength: ['Physical', 'Power'],
 		Dexterity: ['Physical', 'Finesse'],

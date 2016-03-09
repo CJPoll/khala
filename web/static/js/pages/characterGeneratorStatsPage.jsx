@@ -48,18 +48,21 @@ const CharacterGeneratorStatsPage = React.createClass({
 	renderCompositeStats() {
 		const stats = this.state.stats;
 
-		return stats.calculateComposites().map((stat) => <CompositeStatValue statName={stat.statName} statValue={stat.statValue} key={stat.statName + '_composite'} />);
+		return stats.composites().map((compositeStat, compositeStatName) =>
+			<CompositeStatValue statName={compositeStatName} statValue={compositeStat.value()} key={compositeStatName + '_composite'} />);
 	},
 
 	render() {
+		const stats = this.state.stats;
+
 		return (
 			<div>
 				<Row>
 					<div style={{width: '50%', float: 'left'}}>
-						<PointsRemaining value={this.state.stats.pointsRemaining()} />
+						<PointsRemaining value={stats.pointsRemaining()} />
 					</div>
 					<div style={{width: '50%', float: 'left', textAlign: 'right'}}>
-						<PointTotal value={this.state.stats.calculateComposites()} />
+						<PointTotal value={stats.composites().sum()} />
 					</div>
 				</Row>
 				<Row>

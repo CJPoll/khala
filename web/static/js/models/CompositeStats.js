@@ -9,7 +9,8 @@ import CompositeStat from 'compositeStat';
  */
 
 const CompositeStats = function(compositeStats, statsDelegate) {
-	this.composites = _.mapValues(compositeStats, (baseStatNames) => new CompositeStat(baseStatNames, statsDelegate));
+	this.composites = _.mapValues(compositeStats,
+		(baseStatNames, compositeStatName) => new CompositeStat(baseStatNames, statsDelegate, compositeStatName));
 };
 
 /**
@@ -26,7 +27,7 @@ CompositeStats.prototype.valueOf = valueOf;
 /**
  * @return { Array } The results of applying iterator to every stat
  * @param { compositeStatsIterator } iterator A function which is applied to
- * every composite stat
+ * every composite stat (stat, statName)
  * @memberOf CompositeStats
  */
 function map(iterator) {
@@ -46,5 +47,49 @@ function sum() {
 }
 
 CompositeStats.prototype.sum = sum;
+
+/**
+ * @return { Array.CompositeStat } An array of composite stats
+ * @param { number } start The starting index for the slice
+ * @param { number } length The number of stats to return
+ */
+function orderedSlice(start, length) {
+	const stats = _.values(this.composites);
+	stats.sort(function(a, b) {
+		return b.value() - a.value();
+	});
+
+	const strengths = stats.slice(start, length);
+	return _.map(strengths, (stat) => stat.statName);
+}
+
+CompositeStats.prototype.orderedSlice = orderedSlice;
+
+/**
+ * @return { Array.CompositeStat } An array of composite stats
+ */
+function strengths() {
+	return this.orderedSlice(0, 3);
+}
+
+CompositeStats.prototype.strengths = strengths;
+
+/**
+ * @return { Array.CompositeStat } An array of composite stats
+ */
+function mids() {
+	return this.orderedSlice(3, 6);
+}
+
+CompositeStats.prototype.mids = mids;
+
+/**
+ * @return { Array.CompositeStat } An array of composite stats
+ */
+function weaknesses() {
+	return this.orderedSlice(6, 9);
+}
+
+CompositeStats.prototype.weaknesses = weaknesses;
 
 export default CompositeStats;

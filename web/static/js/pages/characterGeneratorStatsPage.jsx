@@ -1,11 +1,11 @@
 import React from 'react';
 import Reflux from 'reflux';
+import AbilityList from 'abilityList';
 import Row from 'row';
 import NumberSelector from 'numberSelector';
 import CharacterGeneratorActions from 'characterGeneratorActions';
 import CharacterGeneratorStore from 'characterGeneratorStore';
 import PointsRemaining from 'pointsRemaining';
-import CompositeStatValue from 'compositeStatValue';
 import PointTotal from 'pointTotal';
 
 const CharacterGeneratorStatsPage = React.createClass({
@@ -45,13 +45,6 @@ const CharacterGeneratorStatsPage = React.createClass({
 		return statElements;
 	},
 
-	renderCompositeStats() {
-		const stats = this.state.stats;
-
-		return stats.composites().map((compositeStat, compositeStatName) =>
-			<CompositeStatValue statName={compositeStatName} statValue={compositeStat.value()} key={compositeStatName + '_composite'} />);
-	},
-
 	render() {
 		const stats = this.state.stats;
 
@@ -68,8 +61,18 @@ const CharacterGeneratorStatsPage = React.createClass({
 				<Row>
 					{this.renderStats()}
 				</Row>
-				<Row style={{marginTop: '10px', overflow: 'auto'}}>
-					{this.renderCompositeStats()}
+				<Row>
+					<div style={{width: '33%', float: 'left', paddingTop: '20px'}}>
+						<AbilityList label="Strong" listItems={stats.compositeStats.strengths()} />
+					</div>
+					<div style={{width: '33%', float: 'left', paddingTop: '20px'}}>
+						<AbilityList label="Mid" listItems={stats.compositeStats.mids()} />
+					</div>
+					<div style={{width: '33%', float: 'left', paddingTop: '20px'}}>
+						<AbilityList label="Weak" listItems={stats.compositeStats.weaknesses()} />
+					</div>
+				</Row>
+				<Row>
 				</Row>
 			</div>
 		);

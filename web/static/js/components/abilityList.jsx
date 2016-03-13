@@ -10,8 +10,12 @@ const AbilityList = React.createClass({
 
 	render() {
 		return (
-			<div style={{width: '33%'}}>
-				<span style={{fontWeight: '150%'}}>{ this.props.label }</span>
+			<div style={{width: '33%', textAlign: 'center'}}>
+
+				<span style={{fontSize: '125%', display: 'inline-block'}}>
+					{ this.props.label }
+				</span>
+
 				<List>
 					{ this.renderListItems(this.props.listItems) }
 				</List>

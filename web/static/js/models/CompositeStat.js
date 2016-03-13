@@ -10,11 +10,13 @@ import _ from 'lodash';
  * @return { CompositeStat } A CompositeStat object
  * @param { Array.StatName } baseStats A list of names of base stats
  * @param { CharacterGeneratorStats } statsObject An object to query for the
+ * @param { StatName } name The name of the composite stat
  * value of the base stats
  */
-function CompositeStat(baseStats, statsObject) {
+function CompositeStat(baseStats, statsObject, name) {
 	this.baseStats = baseStats;
 	this.statsObject = statsObject;
+	this.statName = name;
 }
 
 /**

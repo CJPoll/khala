@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import CompositeStat from 'compositeStat';
+import CompositeStat from 'CompositeStat';
 
 /**
  * @typedef { function }

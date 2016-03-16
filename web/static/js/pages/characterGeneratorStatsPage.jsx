@@ -7,6 +7,7 @@ import CharacterGeneratorActions from 'characterGeneratorActions';
 import CharacterGeneratorStore from 'characterGeneratorStore';
 import PointsRemaining from 'pointsRemaining';
 import PointTotal from 'pointTotal';
+import CharacterGeneratorSubmit from 'characterGeneratorSubmit';
 
 const CharacterGeneratorStatsPage = React.createClass({
 
@@ -73,6 +74,7 @@ const CharacterGeneratorStatsPage = React.createClass({
 					</div>
 				</Row>
 				<Row>
+					<CharacterGeneratorSubmit />
 				</Row>
 			</div>
 		);

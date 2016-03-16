@@ -51,7 +51,10 @@ const CharacterGeneratorStore = Reflux.createStore({
 		this.state = {
 			stats: stats,
 			fullName: fullName,
-			nickname: nickName
+			nickname: nickName,
+			validCharacter() {
+				return this.stats.validStats() && this.fullName !== '' && this.fullName !== null && this.fullName !== undefined;
+			}
 		};
 	},
 

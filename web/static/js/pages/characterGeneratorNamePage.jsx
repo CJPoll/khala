@@ -1,6 +1,7 @@
 import React from 'react';
 import Input from 'input';
 import CharacterGeneratorActions from 'characterGeneratorActions';
+import CharacterGeneratorSubmit from 'characterGeneratorSubmit';
 
 const CharacterGeneratorNamePage = React.createClass({
 	changeFullName(event) {
@@ -12,6 +13,7 @@ const CharacterGeneratorNamePage = React.createClass({
 	},
 
 	render() {
+
 		return (
 			<div>
 				<Input
@@ -24,6 +26,7 @@ const CharacterGeneratorNamePage = React.createClass({
 					floatingLabelText="Character's Nickname"
 					hintText="Barry"
 					onChange={this.changeNickName} />
+				<CharacterGeneratorSubmit />
 			</div>
 		);
 	}

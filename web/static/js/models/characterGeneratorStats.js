@@ -151,4 +151,13 @@ function valueOfComposite(compositeStat) {
 
 CharacterGeneratorStats.prototype.valueOfComposite = valueOfComposite;
 
+/**
+ * @return { boolean } Whether the character stats are valid
+ */
+function validStats() {
+	return this.pointsRemaining() === 0;
+}
+
+CharacterGeneratorStats.prototype.validStats = validStats;
+
 export default CharacterGeneratorStats;

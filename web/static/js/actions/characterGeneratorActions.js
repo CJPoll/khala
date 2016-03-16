@@ -2,7 +2,9 @@ import Reflux from 'reflux';
 
 const CharacterGeneratorActions = Reflux.createActions([
 	'increaseStat',
-	'decreaseStat'
+	'decreaseStat',
+	'changeFullName',
+	'changeNickname'
 ]);
 
 export default CharacterGeneratorActions;

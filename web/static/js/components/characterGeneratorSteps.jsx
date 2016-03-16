@@ -14,7 +14,6 @@ const CharacterGeneratorSteps = React.createClass({
 				<Tab label="Stats" >
 					<CharacterGeneratorStatsPage />
 				</Tab>
-				<Tab label="Inventory" />
 			</Tabs>
 		);
 	}

@@ -38,8 +38,20 @@ const CharacterGeneratorStore = Reflux.createStore({
 	},
 
 	init() {
+		const stats = new CharacterGeneratorStats(
+			this.stats,
+			this.compositeStats,
+			this.minStatValue,
+			this.maxStatValue,
+			this.startingPointCount);
+
+		const fullName = '';
+		const nickName = '';
+
 		this.state = {
-			stats: new CharacterGeneratorStats(this.stats, this.compositeStats, this.minStatValue, this.maxStatValue, this.startingPointCount)
+			stats: stats,
+			fullName: fullName,
+			nickname: nickName
 		};
 	},
 
@@ -59,6 +71,16 @@ const CharacterGeneratorStore = Reflux.createStore({
 			stats.decrement(stat);
 			this.trigger(this.state);
 		}
+	},
+
+	onChangeFullName(fullName) {
+		this.state.fullName = fullName;
+		this.trigger(this.state);
+	},
+
+	onChangeNickname(nickname) {
+		this.state.nickname = nickname;
+		this.trigger(this.state);
 	}
 });
 

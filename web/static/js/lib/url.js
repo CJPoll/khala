@@ -12,6 +12,10 @@ const URL = {
 		characterGenerator: '/chargen',
 		home: '/',
 		dashboard: '/chargen'
+	},
+
+	character: {
+		create: '/api/v1/characters'
 	}
 };
 

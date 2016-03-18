@@ -31,7 +31,7 @@ function CharacterGeneratorStats(statNames, composites, startingValue, maxValue,
 /**
  * @return { undefined }
  * @param { function } iterator A function to apply to every member. Return
- * value ignored.
+ * value ignored. (stat, statName)
  * @memberof CharacterGeneratorStats
  */
 function forEach(iterator) {
@@ -159,5 +159,17 @@ function validStats() {
 }
 
 CharacterGeneratorStats.prototype.validStats = validStats;
+
+/**
+ * @return { Object.<StatName, Number> } An object, the keys of which are basesstat
+ * names, the value is the value of the stats.
+ */
+function values() {
+	const values = {};
+	this.forEach((statName, stat) => values[statName] = stat);
+	return values;
+}
+
+CharacterGeneratorStats.prototype.values = values;
 
 export default CharacterGeneratorStats;

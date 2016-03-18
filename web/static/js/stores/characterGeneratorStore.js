@@ -1,6 +1,7 @@
 import Reflux from 'reflux';
 import CharacterGeneratorActions from 'characterGeneratorActions';
 import CharacterGeneratorStats from 'characterGeneratorStats';
+import Character from 'character';
 
 const stats = [
 	'Physical',
@@ -84,6 +85,18 @@ const CharacterGeneratorStore = Reflux.createStore({
 	onChangeNickname(nickname) {
 		this.state.nickname = nickname;
 		this.trigger(this.state);
+	},
+
+	onSubmitCharacter() {
+		const data = Character.build(
+			this.state.fullName,
+			this.state.lastName,
+			this.state.stats.values()
+		);
+
+		Character.create(data)
+		.then(function(response) { console.log(response); })
+		.catch(function(response) { console.log(response); });
 	}
 });
 

@@ -29,6 +29,7 @@ defmodule Khala.Router do
 
     post "/sessions", SessionController, :create
     post "/users", UserController, :create
+    post "/characters", CharacterController, :create
 
     delete "/sessions", SessionController, :delete
   end

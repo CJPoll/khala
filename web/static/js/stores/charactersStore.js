@@ -1,5 +1,7 @@
 import Reflux from 'reflux';
 import CharactersActions from 'charactersActions';
+import CharacterModel from 'models/character';
+import _ from 'lodash';
 
 const CharactersStore = Reflux.createStore({
 	listenables: [CharactersActions],
@@ -16,7 +18,8 @@ const CharactersStore = Reflux.createStore({
 	},
 
 	onIndexCompleted(response) {
-		this.state.characters = response.characters;
+		const characters = _.map(response.characters, (character) => new CharacterModel(character));
+		this.state.characters = characters;
 		this.trigger(this.state);
 	}
 });

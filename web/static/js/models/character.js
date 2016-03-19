@@ -1,14 +1,12 @@
 /**
  * @constructor
- * @param { String } fullName The full name of the character
- * @param { String } nickname A shortened version of the character's name for
- * display
- * @param { CharacterGeneratorStats } stats The character's stat block
+ * @param { Object } character The parsed JSON representation of the character
  */
-function CharacterModel(fullName, nickname, stats) {
-	this.fullName = fullName;
-	this.nickname = nickname;
-	this.stats = stats;
+function CharacterModel(character) {
+	this.id = character.id;
+	this.fullName = character.fullName;
+	this.nickname = character.nickname;
+	this.stats = character.stats;
 }
 
 export default CharacterModel;

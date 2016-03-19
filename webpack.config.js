@@ -18,6 +18,7 @@ module.exports = {
 			path.resolve(__dirname, './web/static/js/lib'),
 			path.resolve(__dirname, './web/static/js/pages'),
 			path.resolve(__dirname, './web/static/js/models'),
+			path.resolve(__dirname, './web/static/js'),
 			path.resolve(__dirname, './web/static/css/'),
 			'./node_modules',
 		],

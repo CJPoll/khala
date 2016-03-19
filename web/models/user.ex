@@ -9,6 +9,8 @@ defmodule Khala.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
 
+    has_many :characters, Khala.Character
+
     timestamps
   end
 

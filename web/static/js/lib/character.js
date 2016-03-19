@@ -1,6 +1,7 @@
 import URL from 'url';
 import axios from 'axios';
 import _ from 'lodash';
+import SessionStore from 'sessionStore';
 
 const Character = {
 	build(fullName, nickname, stats) {
@@ -13,7 +14,12 @@ const Character = {
 			nickname: nickname
 		};
 
-		return {character: _.merge(character, stats)};
+		const token = SessionStore.token();
+
+		return {
+			character: _.merge(character, stats),
+			token: token
+		};
 	},
 
 	create(character) {

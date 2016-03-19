@@ -15,7 +15,8 @@ const URL = {
 	},
 
 	character: {
-		create: '/api/v1/characters'
+		create: '/api/v1/characters',
+		index: '/characters'
 	}
 };
 

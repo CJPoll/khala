@@ -11,10 +11,12 @@ defmodule Khala.Character do
     field :finesse, :integer
     field :resilience, :integer
 
+    belongs_to :user, Khala.User
+
     timestamps
   end
 
-  @required_fields ~w(full_name physical mental social power finesse resilience)
+  @required_fields ~w(full_name physical mental social power finesse resilience user_id)
   @optional_fields ~w(nickname)
 
   @doc """

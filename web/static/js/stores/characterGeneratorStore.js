@@ -2,6 +2,9 @@ import Reflux from 'reflux';
 import CharacterGeneratorActions from 'characterGeneratorActions';
 import CharacterGeneratorStats from 'characterGeneratorStats';
 import Character from 'character';
+import NotificationActions from 'notificationActions';
+import NavigationActions from 'navigationActions';
+import URL from 'url';
 
 const stats = [
 	'Physical',
@@ -90,13 +93,16 @@ const CharacterGeneratorStore = Reflux.createStore({
 	onSubmitCharacter() {
 		const data = Character.build(
 			this.state.fullName,
-			this.state.lastName,
+			this.state.nickname,
 			this.state.stats.values()
 		);
 
 		Character.create(data)
-		.then(function(response) { console.log(response); })
-		.catch(function(response) { console.log(response); });
+		.then(function() {
+			NotificationActions.notify('Character Saved!');
+			NavigationActions.changeUrl(URL.character.index);
+		})
+		.catch(function() { NotificationActions.notify('Saving failed :('); });
 	}
 });
 

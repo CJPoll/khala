@@ -27,7 +27,8 @@ const CharacterIndexPage = React.createClass({
 		if (this.state.characters.characters.length > 0) {
 			return _.map(this.state.characters.characters, (character) => <ListItem key={'character_' + character.id}> {character.fullName} </ListItem>);
 		} else {
-			return <ListItem> By Merlin's beard - go make some characters! </ListItem>
+			const defaultMessage = 'By Merlin\'s beard - go make some characters!';
+			return <ListItem> {defaultMessage} </ListItem>;
 		}
 	},
 

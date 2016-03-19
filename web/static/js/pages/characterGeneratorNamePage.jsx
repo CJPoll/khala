@@ -19,7 +19,7 @@ const CharacterGeneratorNamePage = React.createClass({
 				<Input
 					type="text"
 					floatingLabelText="Character's Full Name"
-					hintText="Sir Barrymore Goblinslayer of Mooremouthe"
+					hintText="Sir Barrymore of Mooremouthe"
 					onChange={this.changeFullName} />
 				<Input
 					type="text"

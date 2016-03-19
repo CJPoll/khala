@@ -3,6 +3,7 @@ import Reflux from 'reflux';
 import RegistrationForm from 'registrationForm';
 import HeadingStyles from 'headings';
 import NavigationActions from 'navigationActions';
+import URL from 'url';
 
 import SessionStore from 'sessionStore';
 
@@ -26,7 +27,7 @@ const RegistrationPage = React.createClass({
 
 	render() {
 		if (this.state.loggedIn) {
-			NavigationActions.changeUrl('/chargen');
+			NavigationActions.changeUrl(URL.page.dashboard);
 		}
 
 		return (

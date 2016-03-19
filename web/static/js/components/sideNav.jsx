@@ -18,12 +18,18 @@ const SideNav = React.createClass({
 		NavigationActions.toggleSideNav();
 	},
 
+	goToCharacterIndex() {
+		NavigationActions.changeUrl(URL.page.character.index);
+		NavigationActions.toggleSideNav();
+	},
+
 	render() {
 		return (
 			<LeftNav open={this.props.open}
 				docked={false}
 				onRequestChange={this.handleRequestChange}
 			>
+				<MenuItem onClick={this.goToCharacterIndex}>My Characters</MenuItem>
 				<MenuItem onClick={this.goToCharacterGenerator}>Character Generator</MenuItem>
 			</LeftNav>
 		);

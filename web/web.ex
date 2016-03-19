@@ -33,7 +33,7 @@ defmodule Khala.Web do
       alias Khala.Repo
 
       import Ecto
-      import Ecto.Query, only: [from: 1, from: 2]
+      import Ecto.Query, only: [from: 1, from: 2, select: 3, where: 2]
 
       import Khala.Router.Helpers
       import Khala.Gettext

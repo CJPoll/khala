@@ -3,7 +3,7 @@ defmodule Khala.CharacterController do
 
   alias Khala.Character
 
-  plug :scrub_params, "character"
+  plug :scrub_params, "character" when action in [:create]
 
   def create(conn, %{"character" => character_params, "token" => token}) do
     user = Khala.Token.user_for(token)
@@ -22,6 +22,16 @@ defmodule Khala.CharacterController do
     else
       conn |> error(400, character)
     end
+  end
+
+  def index(conn, %{"token" => token}) do
+    characters = token
+                  |> Khala.Token.user_for
+                  |> Repo.preload(:characters)
+                  |> Map.get(:characters)
+                  |> IO.inspect
+
+    conn |> render("characters.json", characters: characters)
   end
 
   defp error(conn, code, changeset) do

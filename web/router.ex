@@ -18,12 +18,6 @@ defmodule Khala.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", Khala do
-    pipe_through [:browser, :browser_session] # Use the default browser stack
-
-    get "/*any", PageController, :index
-  end
-
   scope "/api/v1/", Khala do
     pipe_through :api
 
@@ -31,7 +25,15 @@ defmodule Khala.Router do
     post "/users", UserController, :create
     post "/characters", CharacterController, :create
 
+    get "/characters", CharacterController, :index
+
     delete "/sessions", SessionController, :delete
+  end
+
+  scope "/", Khala do
+    pipe_through [:browser, :browser_session] # Use the default browser stack
+
+    get "/*any", PageController, :index
   end
 
   # Other scopes may use custom stacks.

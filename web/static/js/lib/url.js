@@ -9,6 +9,9 @@ const URL = {
 	},
 
 	page: {
+		character: {
+			index: '/characters'
+		},
 		characterGenerator: '/chargen',
 		home: '/',
 		dashboard: '/chargen'
@@ -16,7 +19,7 @@ const URL = {
 
 	character: {
 		create: '/api/v1/characters',
-		index: '/characters'
+		index: '/api/v1/characters'
 	}
 };
 

@@ -2,6 +2,7 @@ import URL from 'url';
 import axios from 'axios';
 import _ from 'lodash';
 import SessionStore from 'sessionStore';
+//import CharacterModel from 'models/character';
 
 const Character = {
 	build(fullName, nickname, stats) {
@@ -24,6 +25,11 @@ const Character = {
 
 	create(character) {
 		return axios.post(URL.character.create, character);
+	},
+
+	index() {
+		const token = SessionStore.token();
+		return axios.get(URL.character.index, {params: {token: token}});
 	}
 };
 

@@ -100,7 +100,7 @@ const CharacterGeneratorStore = Reflux.createStore({
 		Character.create(data)
 		.then(function() {
 			NotificationActions.notify('Character Saved!');
-			NavigationActions.changeUrl(URL.character.index);
+			NavigationActions.changeUrl(URL.page.character.index);
 		})
 		.catch(function() { NotificationActions.notify('Saving failed :('); });
 	}

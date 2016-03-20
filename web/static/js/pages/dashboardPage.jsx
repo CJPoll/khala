@@ -1,7 +1,10 @@
 import React from 'react';
 import AbilityList from 'abilityList';
+import requireLogin from 'requireLogin';
 
 const DashboardPage = React.createClass({
+	mixins: [requireLogin],
+
 	render() {
 		return (
 			<div>

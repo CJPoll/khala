@@ -9,7 +9,7 @@ const SessionStore = Reflux.createStore({
 
 	init() {
 		this.state = {
-			token: localStorage.getItem('token') || '',
+			token: sessionStorage.getItem('token') || '',
 			loggingIn: false
 		};
 	},
@@ -25,14 +25,14 @@ const SessionStore = Reflux.createStore({
 	},
 
 	onLogoutCompleted() {
-		localStorage.removeItem('token', undefined);
+		sessionStorage.removeItem('token', undefined);
 		this.state.token = '';
 		NavigationActions.changeUrl(URL.page.home);
 		this.trigger(this.state);
 	},
 
 	onSubmitLoginCompleted(token) {
-		localStorage.setItem('token', token);
+		sessionStorage.setItem('token', token);
 		this.state.token = token;
 		this.state.loggingIn = false;
 		NavigationActions.changeUrl(URL.page.dashboard);

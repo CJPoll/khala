@@ -11,9 +11,10 @@ import CharactersStore from 'charactersStore';
 import CharactersActions from 'charactersActions';
 import NavigationActions from 'navigationActions';
 import URL from 'url';
+import requireLogin from 'requireLogin';
 
 const CharacterIndexPage = React.createClass({
-	mixins: [Reflux.connect(CharactersStore, 'characters')],
+	mixins: [requireLogin, Reflux.connect(CharactersStore, 'characters')],
 
 	init() {
 		CharactersActions.index();

@@ -8,7 +8,7 @@ import CharacterGeneratorStore from 'characterGeneratorStore';
 import CharactersStore from 'charactersStore';
 import GameSessionStore from 'gameSessionStore';
 
-import Set from 'set';
+import URL from 'url';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -20,7 +20,7 @@ window.App.NotificationStore = NotificationStore;
 window.App.CharacterGeneratorStore = CharacterGeneratorStore;
 window.App.CharactersStore = CharactersStore;
 window.App.GameSessionStore = GameSessionStore;
-window.App.Set = Set;
+window.App.URL = URL;
 
 document.addEventListener('DOMContentLoaded', function() {
 	const appDiv = document.getElementById('application');

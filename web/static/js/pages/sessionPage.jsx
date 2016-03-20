@@ -8,6 +8,7 @@ import GameSessionStore from 'gameSessionStore';
 import GameSessionActions from 'gameSessionActions';
 
 import RaisedButton from 'material-ui/lib/raised-button';
+import requireLogin from 'requireLogin';
 
 /**
  * @return { boolean } Whether the current URL has a sessionId. This function
@@ -54,7 +55,7 @@ const Session = React.createClass({
 });
 
 const SessionPage = React.createClass({
-	mixins: [Reflux.connect(GameSessionStore, 'sessionState')],
+	mixins: [requireLogin, Reflux.connect(GameSessionStore, 'sessionState')],
 
 	render() {
 		if ((urlHasSessionId.bind(this))() || this.state.sessionState.sessions.count() > 0) {

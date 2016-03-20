@@ -19,6 +19,7 @@ const KhalaRouter = React.createClass({
 					<Route path="/chargen" component={CharacterGeneratorPage} />
 					<Route path="/characters" component={CharacterIndexPage} />
 					<Route path="/session" component={SessionPage} />
+					<Route path="/sessions/:sessionId" component={SessionPage} />
 				</Route>
 			</Router>
 		);

@@ -15,7 +15,10 @@ const URL = {
 		characterGenerator: '/chargen',
 		home: '/',
 		dashboard: '/characters',
-		session: '/session'
+		session: '/session',
+		sessionFor: function(sessionId) {
+			return '/sessions/' + sessionId;
+		}
 	},
 
 	character: {

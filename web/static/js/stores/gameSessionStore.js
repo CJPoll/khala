@@ -1,15 +1,21 @@
 import Reflux from 'reflux';
 import NotificationActions from 'notificationActions';
+import NavigationActions from 'navigationActions';
 import GameSessionActions from 'gameSessionActions';
-import sessionChannel from 'sessionChannel';
+import SessionStore from 'sessionStore';
+import URL from 'url';
+
 import Set from 'set';
+import socket from 'socket';
+import uuid from 'uuid';
 
 /**
  * @return { undefined }
  */
 function init() {
 	this.state = {
-		users: new Set()
+		users: new Set(),
+		sessions: new Set()
 	};
 }
 
@@ -53,7 +59,52 @@ function onUserAckReceived(userName) {
  * @return { undefined }
  */
 function onUserAck() {
-	sessionChannel.push('user:ack', {});
+}
+
+/**
+ * @return { undefined }
+ * @param { String } sessionId The id of the room to join
+ */
+function onJoinSession(sessionId) {
+	const sessions = this.state.sessions;
+	if (!sessions.member(sessionId)) {
+		const channel = socket.channel('sessions:' + sessionId, {token: SessionStore.token()});
+		channel.join()
+		.receive('ok', () => {
+			sessions.add(sessionId);
+
+			channelSetup(channel);
+		});
+	}
+	this.trigger(this.state);
+}
+
+/**
+ * @return { undefined }
+ */
+function onCreateSession() {
+	const sessionId = uuid();
+	GameSessionActions.joinSession('sessions:' + sessionId);
+	NavigationActions.changeUrl(URL.page.sessionFor(sessionId));
+}
+
+/**
+ * @return { undefined }
+ * @param { Phoenix.Channel } channel The channel to set up
+ */
+function channelSetup(channel) {
+	channel.on('user:join', function(response) {
+		GameSessionActions.userJoined(response.user);
+		channel.push('user:ack', {});
+	});
+
+	channel.on('user:leave', function(response) {
+		GameSessionActions.userLeft(response.user);
+	});
+
+	channel.on('user:ack', function(response) {
+		GameSessionActions.userAckReceived(response.user);
+	});
 }
 
 const GameSessionStore = Reflux.createStore({
@@ -63,7 +114,9 @@ const GameSessionStore = Reflux.createStore({
 	onUserJoined: onUserJoined,
 	onUserLeft: onUserLeft,
 	onUserAckReceived: onUserAckReceived,
-	onUserAck: onUserAck
+	onUserAck: onUserAck,
+	onJoinSession: onJoinSession,
+	onCreateSession: onCreateSession
 });
 
 export default GameSessionStore;

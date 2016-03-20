@@ -41,6 +41,15 @@ function member(element) {
 Set.prototype.member = member;
 
 /**
+ * @return { Number } The number of elements in the set
+ */
+function count() {
+	return _.keys(this.representation).length;
+}
+
+Set.prototype.count = count;
+
+/**
  * @return { undefined }
  * @param { Function } iteratee What you want to do for each element
  */

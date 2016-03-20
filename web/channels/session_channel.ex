@@ -1,7 +1,7 @@
 defmodule Khala.SessionChannel do
   use Khala.Web, :channel
 
-  def join("sessions:lobby", %{"token" => token }, socket) do
+  def join("sessions:" <> session_id, %{"token" => token }, socket) do
     user = token |> Khala.Token.user_for
     socket = socket |> assign(:user, user)
     send self(), {:user_joined, user.name}

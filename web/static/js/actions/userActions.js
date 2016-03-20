@@ -9,7 +9,9 @@ const UserActions = Reflux.createActions({
 UserActions.register.listen((name, email, password, passwordConfirmation) => {
 	User.create(name, email, password, passwordConfirmation)
 	.then(() => NotificationActions.notify('Registration Successful'))
-	.catch((result) => this.failed(result.data));
+	.catch((response) => {
+		NotificationActions.notify(response.data.errors[0]);
+	});
 });
 
 export default UserActions;

@@ -26,6 +26,9 @@ defmodule Khala.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> lowercase_email
+    |> update_change(:email, &String.downcase/1)
+    |> unique_constraint(:email)
   end
 
   def create_changeset(model, params \\ :empty) do
@@ -39,6 +42,7 @@ defmodule Khala.User do
 
   def login(%{"email" => email, "password" => password}) do
     email
+    |> String.downcase
     |> from_email
     |> login(password)
   end
@@ -78,5 +82,9 @@ defmodule Khala.User do
         |> Ecto.Changeset.put_change(:encrypted_password, encrypted_password)
         :error -> changeset
     end
+  end
+
+  def lowercase_email(changeset) do
+    changeset
   end
 end

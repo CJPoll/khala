@@ -31,6 +31,16 @@ function remove(element) {
 Set.prototype.remove = remove;
 
 /**
+ * @return { bool } Whether or not the element is a member of the set
+ * @param { * } element The item to check membership for
+ */
+function member(element) {
+	return this.representation[element] !== undefined;
+}
+
+Set.prototype.member = member;
+
+/**
  * @return { undefined }
  * @param { Function } iteratee What you want to do for each element
  */

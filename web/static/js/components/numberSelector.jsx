@@ -49,8 +49,8 @@ const NumberSelector = React.createClass({
 							</div>
 						</div>
 						<div style={{width: '20%', float: 'left', marginTop: '10px'}}>
-								<ArrowUp onClick={this.onClickUp} />
-								<ArrowDown onClick={this.onClickDown} />
+								<ArrowUp onClick={this.onClickUp} viewBox='6 10 12 1' />
+								<ArrowDown onClick={this.onClickDown} viewBox='6 10 12 1'/>
 						</div>
 					</div>
 				</Paper>

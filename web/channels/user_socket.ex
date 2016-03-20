@@ -2,7 +2,7 @@ defmodule Khala.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", Khala.RoomChannel
+  channel "sessions:*", Khala.SessionChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

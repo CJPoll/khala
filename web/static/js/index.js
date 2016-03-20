@@ -6,6 +6,9 @@ import SessionStore from 'sessionStore';
 import NotificationStore from 'notificationStore';
 import CharacterGeneratorStore from 'characterGeneratorStore';
 import CharactersStore from 'charactersStore';
+import GameSessionStore from 'gameSessionStore';
+
+import socket from 'socket';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -16,6 +19,9 @@ window.App.SessionStore = SessionStore;
 window.App.NotificationStore = NotificationStore;
 window.App.CharacterGeneratorStore = CharacterGeneratorStore;
 window.App.CharactersStore = CharactersStore;
+window.App.GameSessionStore = GameSessionStore;
+
+window.App.socket = socket;
 
 document.addEventListener('DOMContentLoaded', function() {
 	const appDiv = document.getElementById('application');

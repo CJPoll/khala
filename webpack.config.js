@@ -20,6 +20,7 @@ module.exports = {
 			path.resolve(__dirname, './web/static/js/models'),
 			path.resolve(__dirname, './web/static/js'),
 			path.resolve(__dirname, './web/static/css/'),
+			path.resolve(__dirname, './deps/phoenix/web/static/js/'),
 			'./node_modules',
 		],
 		extensions: ['', '.js', '.jsx', '.scss'],

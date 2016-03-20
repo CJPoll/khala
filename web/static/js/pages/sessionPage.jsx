@@ -1,29 +1,27 @@
 import React from 'react';
+import Reflux from 'reflux';
+import _ from 'lodash';
 
-import socket from 'socket';
-import SessionStore from 'sessionStore';
-import GameSessionActions from 'gameSessionActions';
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
+
+import GameSessionStore from 'gameSessionStore';
 
 const SessionPage = React.createClass({
-	getInitialState() {
-		const channel = socket.channel('sessions:lobby', {token: SessionStore.token()});
-		channel.join();
-		channel.on('user_joined', function(response) {
-			GameSessionActions.userJoined(response.user);
-		});
+	mixins: [Reflux.connect(GameSessionStore, 'players')],
 
-		channel.on('user_left', function(response) {
-			GameSessionActions.userLeft(response.user);
-		});
-
-		return {
-			channel: channel
-		};
+	renderPlayers(userNames) {
+		return userNames.map(player => <ListItem> {player} </ListItem>);
 	},
 
 	render() {
 		return (
-			<h1> Session! </h1>
+			<div>
+				<h1> Session! </h1>
+				<List>
+					{this.renderPlayers(this.state.players.users)}
+				</List>
+			</div>
 		);
 	}
 });

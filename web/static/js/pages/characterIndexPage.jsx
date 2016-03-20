@@ -1,5 +1,6 @@
 import React from 'react';
 import Reflux from 'reflux';
+import _ from 'lodash';
 
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
@@ -7,7 +8,6 @@ import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import CharactersStore from 'charactersStore';
-import _ from 'lodash';
 import CharactersActions from 'charactersActions';
 import NavigationActions from 'navigationActions';
 import URL from 'url';

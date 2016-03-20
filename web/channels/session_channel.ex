@@ -15,6 +15,13 @@ defmodule Khala.SessionChannel do
     socket |> send_reply(%{"hello" => "world"})
   end
 
+  def handle_in("user:ack", _payload, socket) do
+    IO.inspect("ACK")
+    user_name = socket.assigns.user.name
+    broadcast socket, "user:ack", %{"user" => user_name }
+    {:noreply, socket}
+  end
+
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (sessions:lobby).
   def handle_in("shout", payload, socket) do
@@ -32,13 +39,13 @@ defmodule Khala.SessionChannel do
 
   def handle_info({:user_joined, user_name}, socket) do
     IO.inspect("#{user_name} Joined")
-    broadcast socket, "user_joined", %{user: user_name}
+    broadcast socket, "user:join", %{user: user_name}
     {:noreply, socket}
   end
 
   def terminate(_reason, socket) do
     IO.inspect("left")
-    broadcast socket, "user_left", %{user: socket.assigns[:user].name}
+    broadcast socket, "user:leave", %{user: socket.assigns[:user].name}
     {:shutdown, :left}
   end
 

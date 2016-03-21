@@ -1,5 +1,6 @@
 import Reflux from 'reflux';
 import NotificationActions from 'notificationActions';
+import SessionActions from 'sessionActions';
 import NavigationActions from 'navigationActions';
 import GameSessionActions from 'gameSessionActions';
 import SessionStore from 'sessionStore';
@@ -15,7 +16,7 @@ import uuid from 'uuid';
 function init() {
 	this.state = {
 		users: new Set(),
-		sessions: new Set()
+		session: null
 	};
 }
 
@@ -66,13 +67,11 @@ function onUserAck() {
  * @param { String } sessionId The id of the room to join
  */
 function onJoinSession(sessionId) {
-	const sessions = this.state.sessions;
-	if (!sessions.member(sessionId)) {
+	if (!this.state.session) {
 		const channel = socket.channel('sessions:' + sessionId, {token: SessionStore.token()});
 		channel.join()
 		.receive('ok', () => {
-			sessions.add(sessionId);
-
+			this.state.session = channel;
 			channelSetup(channel);
 		});
 	}
@@ -86,6 +85,17 @@ function onCreateSession() {
 	const sessionId = uuid();
 	GameSessionActions.joinSession('sessions:' + sessionId);
 	NavigationActions.changeUrl(URL.page.sessionFor(sessionId));
+}
+
+/**
+ * @return { undefined }
+ */
+function onLogout() {
+	const session = this.state.session;
+	if (session) {
+		this.state.session = null;
+		session.leave();
+	}
 }
 
 /**
@@ -107,8 +117,9 @@ function channelSetup(channel) {
 	});
 }
 
+
 const GameSessionStore = Reflux.createStore({
-	listenables: GameSessionActions,
+	listenables: [GameSessionActions, SessionActions],
 	init: init,
 	getInitialState: getInitialState,
 	onUserJoined: onUserJoined,
@@ -116,7 +127,8 @@ const GameSessionStore = Reflux.createStore({
 	onUserAckReceived: onUserAckReceived,
 	onUserAck: onUserAck,
 	onJoinSession: onJoinSession,
-	onCreateSession: onCreateSession
+	onCreateSession: onCreateSession,
+	onLogout: onLogout
 });
 
 export default GameSessionStore;

@@ -32,7 +32,7 @@ const Session = React.createClass({
 	mixins: [Reflux.connect(GameSessionStore, 'sessionState')],
 
 	componentWillMount() {
-		if (!this.state.sessionState.sessions.count() > 0) {
+		if (this.state.sessionState.session === null) {
 			const sessionId = this.props.params.sessionId;
 			GameSessionActions.joinSession(sessionId);
 		}
@@ -58,7 +58,7 @@ const SessionPage = React.createClass({
 	mixins: [requireLogin, Reflux.connect(GameSessionStore, 'sessionState')],
 
 	render() {
-		if ((urlHasSessionId.bind(this))() || this.state.sessionState.sessions.count() > 0) {
+		if ((urlHasSessionId.bind(this))() || this.state.sessionState.session !== null) {
 			return <Session {...this.props} />;
 		}
 		return <NewSessionPage />;

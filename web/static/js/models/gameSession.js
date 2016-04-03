@@ -5,7 +5,8 @@ import Set from 'set';
 
 const STATES = Object.freeze({
 	UNJOINED: 'unjoined',
-	CHOOSE_PLAYER: 'choose_player'
+	CHOOSE_PLAYER: 'choose_player',
+	LOBBY: 'lobby'
 });
 
 /**
@@ -16,6 +17,7 @@ function GameSession() {
 	this._players = new Set();
 	this._session = null;
 	this._sessionId = null;
+	this._character = null;
 }
 
 /**
@@ -26,6 +28,24 @@ function isUnjoined() {
 }
 
 GameSession.prototype.isUnjoined = isUnjoined;
+
+/**
+ * @return { boolean } Whether the client is in the 'choose_player' state
+ */
+function isChoosingCharacter() {
+	return this._state === STATES.CHOOSE_PLAYER;
+}
+
+GameSession.prototype.isChoosingCharacter = isChoosingCharacter;
+
+/**
+ * @return { boolean } Whether the client is in the 'lobby' state
+ */
+function isInLobby() {
+	return this._state === STATES.LOBBY;
+}
+
+GameSession.prototype.isInLobby = isInLobby;
 
 /**
  * @return { undefined }
@@ -50,7 +70,7 @@ function joinSession(channel, sessionId) {
 
 	this._session = channel;
 	this._sessionId = sessionId;
-	this._state = STATES.CHOOSE_PLAYER;
+	this.setState(STATES.CHOOSE_PLAYER);
 }
 
 GameSession.prototype.joinSession = joinSession;
@@ -73,5 +93,29 @@ function removePlayer(playerName) {
 }
 
 GameSession.prototype.removePlayer = removePlayer;
+
+/**
+ * @return { undefined }
+ * @param { CharacterModel } character A character chosen for the session
+ */
+function characterChosen(character) {
+	if (this.isChoosingCharacter()) {
+		this.setState(STATES.LOBBY);
+		this._character = character;
+	}
+}
+
+GameSession.prototype.characterChosen = characterChosen;
+
+/**
+ * @return { undefined }
+ * @param { String } state The state the game session should be in for the
+ * character
+ */
+function setState(state) {
+	this._state = state;
+}
+
+GameSession.prototype.setState = setState;
 
 export default GameSession;

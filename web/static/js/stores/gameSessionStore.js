@@ -92,6 +92,11 @@ function onLogout() {
 	}
 }
 
+function onCharacterChosen(character) {
+	this.state.characterChosen(character);
+	this.trigger(this.state);
+}
+
 /**
  * @return { undefined }
  * @param { Phoenix.Channel } channel The channel to set up
@@ -111,11 +116,11 @@ function channelSetup(channel) {
 	});
 }
 
-
 const GameSessionStore = Reflux.createStore({
 	listenables: [GameSessionActions, SessionActions],
 	init: init,
 	getInitialState: getInitialState,
+	onCharacterChosen: onCharacterChosen,
 	onUserJoined: onUserJoined,
 	onUserLeft: onUserLeft,
 	onUserAckReceived: onUserAckReceived,

@@ -3,7 +3,7 @@ defmodule Khala.CampaignTest do
 
   alias Khala.Campaign
 
-  @valid_attrs %{name: "some content"}
+  @valid_attrs %{name: "My Campaign Name"}
   @invalid_attrs %{}
 
   test "is valid with a name" do

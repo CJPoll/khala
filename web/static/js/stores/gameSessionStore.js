@@ -1,23 +1,18 @@
 import Reflux from 'reflux';
 import NotificationActions from 'notificationActions';
 import SessionActions from 'sessionActions';
-import NavigationActions from 'navigationActions';
 import GameSessionActions from 'gameSessionActions';
 import SessionStore from 'sessionStore';
-import URL from 'url';
 
-import Set from 'set';
 import socket from 'socket';
 import uuid from 'uuid';
+import GameSession from 'gameSession';
 
 /**
  * @return { undefined }
  */
 function init() {
-	this.state = {
-		users: new Set(),
-		session: null
-	};
+	this.state = new GameSession();
 }
 
 /**
@@ -32,7 +27,7 @@ function getInitialState() {
  * @param { String } userName The name of a user who just joined the game session
  */
 function onUserJoined(userName) {
-	this.state.users.add(userName);
+	this.state.addPlayer(userName);
 	NotificationActions.notify(userName + ' joined');
 	this.trigger(this.state);
 }
@@ -43,7 +38,7 @@ function onUserJoined(userName) {
  */
 function onUserLeft(userName) {
 	NotificationActions.notify(userName + ' left');
-	this.state.users.remove(userName);
+	this.state.removePlayer(userName);
 	this.trigger(this.state);
 }
 
@@ -52,7 +47,7 @@ function onUserLeft(userName) {
  * @param { String } userName The name of a user ack-ing a join
  */
 function onUserAckReceived(userName) {
-	this.state.users.add(userName);
+	this.state.addPlayer(userName);
 	this.trigger(this.state);
 }
 
@@ -71,7 +66,7 @@ function onJoinSession(sessionId) {
 		const channel = socket.channel('sessions:' + sessionId, {token: SessionStore.token()});
 		channel.join()
 		.receive('ok', () => {
-			this.state.session = channel;
+			this.state.joinSession(channel, sessionId);
 			channelSetup(channel);
 		});
 	}
@@ -83,8 +78,7 @@ function onJoinSession(sessionId) {
  */
 function onCreateSession() {
 	const sessionId = uuid();
-	GameSessionActions.joinSession('sessions:' + sessionId);
-	NavigationActions.changeUrl(URL.page.sessionFor(sessionId));
+	GameSessionActions.joinSession(sessionId);
 }
 
 /**

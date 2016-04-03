@@ -1,65 +1,21 @@
 import React from 'react';
 import Reflux from 'reflux';
 
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-
 import GameSessionStore from 'gameSessionStore';
-import GameSessionActions from 'gameSessionActions';
+import ChooseCharacterPage from 'chooseCharacterPage';
+import NewSessionPage from 'newSessionPage';
 
-import RaisedButton from 'material-ui/lib/raised-button';
 import requireLogin from 'requireLogin';
 
-/**
- * @return { boolean } Whether the current URL has a sessionId. This function
- * must be bound using `.bind(this)`
- */
-function urlHasSessionId() {
-	return this.props.params && this.props.params.sessionId;
-}
-
-const NewSessionPage = React.createClass({
-	onClick() {
-		GameSessionActions.createSession();
-	},
-
-	render() {
-		return <RaisedButton label="Start a Session" fullWidth={true} onClick={this.onClick}/>;
-	}
-});
-
-const Session = React.createClass({
-	mixins: [Reflux.connect(GameSessionStore, 'sessionState')],
-
-	componentWillMount() {
-		if (this.state.sessionState.session === null) {
-			const sessionId = this.props.params.sessionId;
-			GameSessionActions.joinSession(sessionId);
-		}
-	},
-
-	renderPlayers(userNames) {
-		return userNames.map(player => <ListItem> {player} </ListItem>);
-	},
-
-	render() {
-		return (
-			<div>
-				<h1> Session! </h1>
-				<List>
-					{this.renderPlayers(this.state.sessionState.users)}
-				</List>
-			</div>
-		);
-	}
-});
-
 const SessionPage = React.createClass({
-	mixins: [requireLogin, Reflux.connect(GameSessionStore, 'sessionState')],
+	mixins: [
+		requireLogin,
+		Reflux.connect(GameSessionStore, 'sessionState')
+	],
 
 	render() {
-		if ((urlHasSessionId.bind(this))() || this.state.sessionState.session !== null) {
-			return <Session {...this.props} />;
+		if (!this.state.sessionState.isUnjoined()) {
+			return <ChooseCharacterPage {...this.props} />;
 		}
 		return <NewSessionPage />;
 	}

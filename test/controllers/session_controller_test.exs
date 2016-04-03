@@ -1,5 +1,5 @@
 defmodule Khala.SessionControllerTest do
-  use Khala.ConnCase
+  use Khala.ConnCase, async: true
 
   alias Khala.Token
   alias Khala.User

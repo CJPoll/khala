@@ -11,12 +11,10 @@ defmodule Khala.SessionChannel do
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
   def handle_in("ping", _payload, socket) do
-    IO.inspect("PINGING")
-    socket |> send_reply(%{"hello" => "world"})
+    socket |> send_reply(%{"hello" => "there"})
   end
 
   def handle_in("user:ack", _payload, socket) do
-    IO.inspect("ACK")
     user_name = socket.assigns.user.name
     broadcast socket, "user:ack", %{"user" => user_name }
     {:noreply, socket}
@@ -38,13 +36,11 @@ defmodule Khala.SessionChannel do
   end
 
   def handle_info({:user_joined, user_name}, socket) do
-    IO.inspect("#{user_name} Joined")
     broadcast socket, "user:join", %{user: user_name}
     {:noreply, socket}
   end
 
   def terminate(_reason, socket) do
-    IO.inspect("left")
     broadcast socket, "user:leave", %{user: socket.assigns[:user].name}
     {:shutdown, :left}
   end

@@ -35,7 +35,7 @@ defmodule Khala.SessionController do
     end
   end
 
-  defp create_token_for(user) do
+  def create_token_for(user) do
     uuid = UUID.uuid4()
 
     token = %Token{}

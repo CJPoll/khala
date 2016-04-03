@@ -2,7 +2,6 @@ defmodule Khala.UserController do
   use Khala.Web, :controller
 
   alias Khala.User
-  require IEx
 
   plug :scrub_params, "user"
 
@@ -19,7 +18,6 @@ defmodule Khala.UserController do
           |> error(400, changeset)
       end
     else
-      IEx.pry
       conn
       |> error(400, user)
     end

@@ -1,5 +1,5 @@
 defmodule Khala.UserTest do
-  use Khala.ModelCase
+  use Khala.ModelCase, async: true
 
   alias Khala.User
 

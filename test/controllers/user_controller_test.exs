@@ -1,5 +1,5 @@
 defmodule Khala.UserControllerTest do
-  use Khala.ConnCase
+  use Khala.ConnCase, async: true
 
   test "POST /users success" do
     conn = post conn(), "/api/v1/users",
@@ -11,7 +11,8 @@ defmodule Khala.UserControllerTest do
     assert %{"email" => "cjpoll@gmail.com", "name" => "Cody", "id" => id} = response
     assert is_integer(id)
   end
-test "POST /users invalid" do
+
+  test "POST /users invalid" do
     conn = post conn(), "/api/v1/users",
       user: %{email: "cjpoll@gmail.com", password: "password01",
         password_confirmation: "password02", name: "Cody"}

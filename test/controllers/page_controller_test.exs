@@ -1,5 +1,5 @@
 defmodule Khala.PageControllerTest do
-  use Khala.ConnCase
+  use Khala.ConnCase, async: true
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

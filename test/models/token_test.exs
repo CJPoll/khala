@@ -1,5 +1,5 @@
 defmodule Khala.TokenTest do
-  use Khala.ModelCase
+  use Khala.ModelCase, async: true
 
   alias Khala.Token
   alias Khala.User

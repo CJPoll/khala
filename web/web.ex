@@ -37,6 +37,26 @@ defmodule Khala.Web do
 
       import Khala.Router.Helpers
       import Khala.Gettext
+
+      defp error(conn, code, changeset) do
+        error = code
+                |> error_structure(changeset)
+                |> Poison.encode!
+
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(code, error)
+      end
+
+      defp error_structure(400, changeset) do
+        error_filter = fn ({error, error_message}) ->
+          Atom.to_string(error) <> " " <> error_message
+        end
+
+        errors = Enum.map(changeset.errors, error_filter)
+
+        %{errors: errors}
+      end
     end
   end
 

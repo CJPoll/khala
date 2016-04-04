@@ -3,7 +3,9 @@ defmodule Khala.Database.Campaign do
   alias Khala.Campaign
 
   def insert(changeset) do
-    Repo.insert(changeset)
+    if changeset.valid?,
+    do: Repo.insert(changeset),
+    else: {:error, changeset}
   end
 
   def get(id) do

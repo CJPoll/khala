@@ -71,7 +71,7 @@ defmodule Khala.User do
     password_confirmation = get_field(changeset, :password_confirmation)
 
     if passwords_match?(password, password_confirmation),
-    do: changeset, else: add_error(changeset, :unmatching_password, "Password Confirmation must match")
+    do: changeset, else: add_error(changeset, :password_confirmation, "must match")
   end
 
   def encrypt_password(changeset) do

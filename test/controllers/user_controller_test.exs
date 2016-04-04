@@ -17,6 +17,6 @@ defmodule Khala.UserControllerTest do
       user: %{email: "cjpoll@gmail.com", password: "password01",
         password_confirmation: "password02", name: "Cody"}
 
-    assert json_response(conn, 400) == %{"errors" => ["Password Confirmation must match"]}
+    assert json_response(conn, 400) == %{"errors" => ["password_confirmation must match"]}
   end
 end

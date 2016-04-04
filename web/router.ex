@@ -24,6 +24,7 @@ defmodule Khala.Router do
     post "/sessions", SessionController, :create
     post "/users", UserController, :create
     post "/characters", CharacterController, :create
+    post "/campaigns", CampaignController, :create
 
     get "/characters", CharacterController, :index
 

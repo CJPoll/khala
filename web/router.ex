@@ -27,6 +27,7 @@ defmodule Khala.Router do
     post "/campaigns", CampaignController, :create
 
     get "/characters", CharacterController, :index
+    get "/campaigns", CampaignController, :index
 
     delete "/sessions", SessionController, :delete
   end

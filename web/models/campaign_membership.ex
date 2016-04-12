@@ -2,7 +2,7 @@ defmodule Khala.CampaignMembership do
   use Khala.Web, :model
 
   schema "campaign_memberships" do
-    field :role, :string
+    field :role, :string, default: "owner"
     belongs_to :user, Khala.User
     belongs_to :campaign, Khala.Campaign
 

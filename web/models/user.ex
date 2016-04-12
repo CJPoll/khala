@@ -1,6 +1,9 @@
 defmodule Khala.User do
   use Khala.Web, :model
+
   alias Khala.Repo
+  alias Khala.Campaign
+  alias Khala.CampaignMembership
 
   schema "users" do
     field :email, :string
@@ -10,6 +13,8 @@ defmodule Khala.User do
     field :password_confirmation, :string, virtual: true
 
     has_many :characters, Khala.Character
+
+    many_to_many :campaigns, Campaign, join_through: CampaignMembership
 
     timestamps
   end

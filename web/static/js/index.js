@@ -7,6 +7,7 @@ import NotificationStore from 'notificationStore';
 import CharacterGeneratorStore from 'characterGeneratorStore';
 import CharactersStore from 'charactersStore';
 import GameSessionStore from 'gameSessionStore';
+import CampaignsStore from 'campaignsStore';
 
 import URL from 'url';
 
@@ -20,6 +21,7 @@ window.App.NotificationStore = NotificationStore;
 window.App.CharacterGeneratorStore = CharacterGeneratorStore;
 window.App.CharactersStore = CharactersStore;
 window.App.GameSessionStore = GameSessionStore;
+window.App.CampaignsStore = CampaignsStore;
 window.App.URL = URL;
 
 document.addEventListener('DOMContentLoaded', function() {

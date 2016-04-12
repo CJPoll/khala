@@ -9,6 +9,10 @@ const URL = {
 	},
 
 	page: {
+		campaign: {
+			new: '/campaigns/new',
+			index: '/campaigns'
+		},
 		character: {
 			index: '/characters'
 		},
@@ -19,6 +23,11 @@ const URL = {
 		sessionFor: function(sessionId) {
 			return '/sessions/' + sessionId;
 		}
+	},
+
+	campaign: {
+		create: '/api/v1/campaigns',
+		index: '/api/v1/campaigns'
 	},
 
 	character: {

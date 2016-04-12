@@ -8,6 +8,8 @@ import DashboardPage from 'dashboardPage';
 import CharacterGeneratorPage from 'characterGeneratorPage';
 import CharacterIndexPage from 'characterIndexPage';
 import SessionPage from 'sessionPage';
+import NewCampaignPage from 'newCampaignPage';
+import CampaignIndexPage from 'campaignIndexPage';
 
 const KhalaRouter = React.createClass({
 	render() {
@@ -19,6 +21,8 @@ const KhalaRouter = React.createClass({
 					<Route path="/chargen" component={CharacterGeneratorPage} />
 					<Route path="/characters" component={CharacterIndexPage} />
 					<Route path="/session" component={SessionPage} />
+					<Route path="/campaigns" component={CampaignIndexPage} />
+					<Route path="/campaigns/new" component={NewCampaignPage} />
 				</Route>
 			</Router>
 		);

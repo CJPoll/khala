@@ -8,7 +8,6 @@ const requireLogin = {
 			NavigationActions.changeUrl(URL.page.home);
 		}
 	}
-
 };
 
 export default requireLogin;

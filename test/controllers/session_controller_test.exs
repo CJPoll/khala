@@ -36,7 +36,7 @@ defmodule Khala.SessionControllerTest do
 
     response = json_response(conn, 401)
 
-    assert %{"errors" => ["Invalid login credentials"]} == response
+    assert %{"errors" => ["Unauthorized"]} == response
   end
 
   test "POST /sessions wrong password", context do
@@ -45,7 +45,7 @@ defmodule Khala.SessionControllerTest do
 
     response = json_response(conn, 401)
 
-    assert %{"errors" => ["Invalid login credentials"]} == response
+    assert %{"errors" => ["Unauthorized"]} == response
   end
 
   @tag current: true

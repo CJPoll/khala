@@ -24,4 +24,18 @@ defmodule Khala.CampaignController do
     campaigns = Khala.Database.Campaign.get_by_token(token)
     conn |> render("campaigns.json", %{campaigns: campaigns})
   end
+
+  def show(conn, %{"token" => token, "campaign_id" => campaign_id}) do
+    campaign = token
+                |> Khala.Database.Campaign.get_by_token
+                |> Enum.find(nil, fn(campaign) ->
+                                    Integer.to_string(campaign.id) == campaign_id
+                                  end)
+
+    if campaign do
+      conn |> render("campaign.json", %{campaign: campaign})
+    else
+      conn |> error(401, campaign)
+    end
+  end
 end

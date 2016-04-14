@@ -11,8 +11,8 @@ defmodule Khala.CampaignMembershipTest do
     assert changeset.valid?
   end
 
-  test "changeset with invalid attributes" do
+  test "defaults role to 'owner'" do
     changeset = CampaignMembership.changeset(%CampaignMembership{}, @invalid_attrs)
-    refute changeset.valid?
+    assert changeset.data.role == "owner"
   end
 end

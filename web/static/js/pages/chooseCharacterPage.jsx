@@ -13,7 +13,11 @@ import CharacterList from 'characterList';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 
-function onSelectCharacter(character, e) {
+/**
+ * @return { undefined }
+ * @param { Character } character A Character model object as returned from API
+ */
+function onSelectCharacter(character) {
 	GameSessionActions.characterChosen(character);
 }
 

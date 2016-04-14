@@ -11,23 +11,29 @@ const URL = {
 	page: {
 		campaign: {
 			new: '/campaigns/new',
-			index: '/campaigns'
+			index: '/campaigns',
+			show: function(campaignId) {
+				return '/campaigns/' + campaignId;
+			}
 		},
 		character: {
 			index: '/characters'
 		},
 		characterGenerator: '/chargen',
 		home: '/',
-		dashboard: '/characters',
+		dashboard: '/campaigns',
 		session: '/session',
 		sessionFor: function(sessionId) {
-			return '/sessions/' + sessionId;
+			return 'campaigns/' + sessionId + '/session';
 		}
 	},
 
 	campaign: {
 		create: '/api/v1/campaigns',
-		index: '/api/v1/campaigns'
+		index: '/api/v1/campaigns',
+		show(campaignId) {
+			return '/api/v1/campaigns/' + campaignId;
+		}
 	},
 
 	character: {

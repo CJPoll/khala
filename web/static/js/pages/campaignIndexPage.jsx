@@ -11,8 +11,16 @@ import URL from 'url';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 
+/**
+ * @return { undefined }
+ * @param { Campaign } campaign A campaign object as returned by the API
+ */
+function onSelectCampaign(campaign) {
+	NavigationActions.changeUrl(URL.page.campaign.show(campaign.id));
+}
+
 const CampaignIndexPage = React.createClass({
-	mixins: [requireLogin, Reflux.connect(CampaignsStore, 'campaigns')],
+	mixins: [requireLogin, Reflux.connect(CampaignsStore, 'campaignState')],
 
 	componentWillMount() {
 		CampaignsActions.index();
@@ -23,13 +31,13 @@ const CampaignIndexPage = React.createClass({
 	},
 
 	render() {
-		const campaigns = this.state.campaigns || [];
+		const campaigns = this.state.campaignState.campaigns;
 
 		return (
 			<div>
 				<h1> Campaigns </h1>
 
-				<CampaignList campaigns={campaigns} />
+				<CampaignList campaigns={campaigns} onClick={onSelectCampaign} />
 
 				<FloatingActionButton style={{marginRight: '20', float: 'right'}} onClick={this.newCampaign}>
 					<ContentAdd />

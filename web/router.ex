@@ -28,6 +28,7 @@ defmodule Khala.Router do
 
     get "/characters", CharacterController, :index
     get "/campaigns", CampaignController, :index
+    get "/campaigns/:campaign_id", CampaignController, :show
 
     delete "/sessions", SessionController, :delete
   end

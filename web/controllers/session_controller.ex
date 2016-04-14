@@ -45,17 +45,7 @@ defmodule Khala.SessionController do
     token
   end
 
-  defp error(conn, code, assigns) do
-    error = code
-            |> error_structure(assigns)
-            |> Poison.encode!
-
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(code, error)
-  end
-
-  defp error_structure(401, %{changeset: changeset}) do
+  def error_structure(401, %{changeset: changeset}) do
     filter = fn({error_code, description}) ->
       description
     end
@@ -65,7 +55,7 @@ defmodule Khala.SessionController do
     %{errors: errors}
   end
 
-  defp error_structure(401, _assigns) do
+  def error_structure(401, _assigns) do
     errors = ["Invalid login credentials"]
 
     %{errors: errors}

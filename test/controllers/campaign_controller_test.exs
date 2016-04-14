@@ -36,24 +36,24 @@ defmodule Khala.CampaignControllerTest do
     {:ok, state}
   end
 
-  test "POST /api/v1/campaigns returns 200 on success" do
+  test "POST /api/v1/campaigns returns 200 on success", context do
     conn = post conn(), "/api/v1/campaigns",
-    campaign: %{"name" => "Some Campaign"}
+    campaign: %{"name" => "Some Campaign"}, token: context.token.token
     assert response(conn, 200)
   end
 
-  test "POST /api/v1/campaigns returns JSON representation of campaign" do
+  test "POST /api/v1/campaigns returns JSON representation of campaign", context do
     conn = post conn(), "/api/v1/campaigns",
-    campaign: %{"name" => "Some Campaign"}
+    campaign: %{"name" => "Some Campaign"}, token: context.token.token
     data = json_response(conn, 200)
     campaign = data["campaign"]
     assert campaign["id"]
     assert campaign["name"]
   end
 
-  test "POST /api/v1/campaigns inserts the campaign into the db" do
+  test "POST /api/v1/campaigns inserts the campaign into the db", context do
     conn = post conn(), "/api/v1/campaigns",
-    campaign: %{"name" => "Some Campaign"}
+    campaign: %{"name" => "Some Campaign"}, token: context.token.token
 
     data = json_response(conn, 200)
     campaign = data["campaign"]
@@ -63,26 +63,24 @@ defmodule Khala.CampaignControllerTest do
     assert model
   end
 
-  test "POST /api/v1/campaigns returns 400 if invalid params" do
+  test "POST /api/v1/campaigns returns 400 if invalid params", context do
     conn = post conn(), "/api/v1/campaigns",
-    campaign: %{"namee" => "Some Campaign"}
+    campaign: %{"namee" => "Some Campaign"}, token: context.token.token
     assert response(conn, 400)
   end
 
-  test "POST /api/v1/campaigns returns error messages if invalid params" do
+  test "POST /api/v1/campaigns returns error messages if invalid params", context do
     conn = post conn(), "/api/v1/campaigns",
-    campaign: %{"namee" => "Some Campaign"}
+    campaign: %{"namee" => "Some Campaign"}, token: context.token.token
 
     assert json_response(conn, 400) == %{"errors" => ["name can't be blank"]}
   end
 
-  @tag current: true
   test "GET /campaigns returns a 200", context do
     conn = get conn(), "/api/v1/campaigns", token: context.token.token
     assert conn |> response(200)
   end
 
-  @tag current: true
   test "GET /campaigns returns a JSON representation of campaigns", context do
     conn = get conn(), "/api/v1/campaigns", token: context.token.token
     data = json_response(conn, 200)
@@ -90,7 +88,6 @@ defmodule Khala.CampaignControllerTest do
     assert :erlang.length(campaigns) == 1
   end
 
-  @tag current: true
   test "GET /campaigns only returns the user's campaigns", context do
     conn = get conn(), "/api/v1/campaigns", token: context.token.token
     data = json_response(conn, 200)
@@ -99,5 +96,14 @@ defmodule Khala.CampaignControllerTest do
     assert campaigns == [%{"campaign" =>
         %{"id" => context.campaign1.id,
           "name" => context.campaign1.name}}]
+  end
+
+  test "GET /campaigns/:campaign_id returns the campaign object", context do
+    conn = get conn(), "/api/v1/campaigns/" <> Integer.to_string(context.campaign1.id), token: context.token.token
+    campaign = json_response(conn, 200)
+
+    assert campaign == %{"campaign" =>
+        %{"id" => context.campaign1.id,
+          "name" => context.campaign1.name}}
   end
 end

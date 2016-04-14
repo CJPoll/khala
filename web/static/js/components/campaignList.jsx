@@ -5,8 +5,26 @@ import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 
 const CampaignList = React.createClass({
+	props: {
+		onClick: React.PropTypes.func
+	},
+
 	renderCampaigns(campaigns) {
-		return _.map(campaigns, (campaign) => <ListItem key={'campaign_' + campaign.campaign.id}> {campaign.campaign.name} </ListItem>);
+		let onClick = function() {};
+
+		if (this.props.onClick !== undefined) {
+			onClick = this.props.onClick;
+		}
+
+		if (campaigns === null || campaigns === undefined) {
+			return [];
+		}
+
+		return _.map(campaigns, (campaign) => {
+			return <ListItem key={'campaign_' + campaign.campaign.id} onTouchTap={onClick.bind(this, campaign.campaign)}>
+				{campaign.campaign.name}
+			</ListItem>;
+		});
 	},
 
 	render() {

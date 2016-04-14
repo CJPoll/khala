@@ -17,6 +17,12 @@ const Campaign = {
 				name: name
 			}
 		});
+	},
+
+	show(campaignId) {
+		const token = SessionStore.token();
+
+		return axios.get(URL.campaign.show(campaignId) + '?token=' + token);
 	}
 };
 

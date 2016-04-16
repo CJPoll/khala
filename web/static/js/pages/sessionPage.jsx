@@ -5,6 +5,8 @@ import GameSessionStore from 'gameSessionStore';
 import ChooseCharacterPage from 'chooseCharacterPage';
 import NewSessionPage from 'newSessionPage';
 import GameSessionLobbyPage from 'gameSessionLobbyPage';
+import NavigationActions from 'navigationActions';
+import URL from 'url';
 
 import requireLogin from 'requireLogin';
 
@@ -22,6 +24,10 @@ const SessionPage = React.createClass({
 		} else if (session.isInLobby()) {
 			return <GameSessionLobbyPage gameSession={session} />;
 		}
+
+		const campaignId = this.props.params.campaignId;
+		NavigationActions.changeUrl(URL.page.campaign.show(campaignId));
+
 		return <NewSessionPage />;
 	}
 });

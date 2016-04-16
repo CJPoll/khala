@@ -23,7 +23,7 @@ defmodule Khala.Database.CampaignTest do
   test "inserts a valid campaign changeset into the db", context do
     changeset = Khala.Campaign.changeset(%Khala.Campaign{},
     context.valid_attributes, owner: context.user)
-    {:ok, campaign} = Campaign.insert(changeset)
+    {:ok, _campaign} = Campaign.insert(changeset)
   end
 
   test "gets a campaign out of the db by id", context do

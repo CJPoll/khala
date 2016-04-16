@@ -25,6 +25,7 @@ defmodule Khala.Router do
     post "/users", UserController, :create
     post "/characters", CharacterController, :create
     post "/campaigns", CampaignController, :create
+    post "/campaigns/:campaign_id/players", CampaignController, :add_player
 
     get "/characters", CharacterController, :index
     get "/campaigns", CampaignController, :index

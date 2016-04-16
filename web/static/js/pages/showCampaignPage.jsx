@@ -2,9 +2,15 @@ import React from 'react';
 import Reflux from 'reflux';
 import requireLogin from 'requireLogin';
 
+import Divider from 'material-ui/lib/divider';
+import TextField from 'material-ui/lib/text-field';
+import RaisedButton from 'material-ui/lib/raised-button';
+
+import Row from 'row';
 import CampaignsStore from 'campaignsStore';
 import CampaignsActions from 'campaignsActions';
 import JoinSessionButton from 'joinSessionButton';
+import PlayerList from 'playerList';
 
 const ShowCampaignPage = React.createClass({
 	mixins: [
@@ -15,6 +21,13 @@ const ShowCampaignPage = React.createClass({
 	componentWillMount() {
 		const id = this.props.params.campaignId;
 		CampaignsActions.show(id);
+	},
+
+	invitePlayer(e) {
+		const email = this.refs.email.getValue();
+		this.refs.email.setValue('');
+		const campaign = this.state.campaignState.current();
+		CampaignsActions.invite(email, campaign);
 	},
 
 	renderNoSuchCampaign() {
@@ -32,8 +45,20 @@ const ShowCampaignPage = React.createClass({
 
 	joinSessionButton(campaign) {
 		if (campaign) {
-			return <JoinSessionButton campaign={campaign.campaign} />;
+			return (
+				<JoinSessionButton campaign={campaign} />
+			);
 		}
+	},
+
+	renderLoading() {
+		return (
+			<div>
+				<h1>
+					Loading
+				</h1>
+			</div>
+		);
 	},
 
 	render() {
@@ -41,11 +66,14 @@ const ShowCampaignPage = React.createClass({
 			return this.renderNoSuchCampaign();
 		}
 
-		const current = this.state.campaignState.current();
-		let name = 'Loading';
-		if (current) {
-			name = current.campaign.name;
+		const campaign = this.state.campaignState.current();
+
+		if (campaign === null) {
+			return this.renderLoading();
 		}
+
+		const name = campaign.name;
+		const players = campaign.players;
 
 		return (
 			<div>
@@ -53,7 +81,13 @@ const ShowCampaignPage = React.createClass({
 					{name}
 				</h1>
 
-				{this.joinSessionButton(current)}
+				<Row>
+					<TextField hintText="Player Email" ref="email"/>
+				</Row>
+				<RaisedButton label="Invite Player" secondary={true} onClick={this.invitePlayer} />
+				<JoinSessionButton campaign={campaign} />
+
+				<PlayerList players={players} />
 			</div>
 		);
 	}

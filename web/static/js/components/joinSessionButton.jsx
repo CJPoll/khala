@@ -14,7 +14,7 @@ const JoinSessionButton = React.createClass({
 	render() {
 		const campaign = this.props.campaign;
 		return (
-			<RaisedButton label="Join Session" secondary={true} onClick={this.joinSession.bind(this, campaign)}/>
+			<RaisedButton label="Join Session" primary={true} onClick={this.joinSession.bind(this, campaign)}/>
 		);
 	}
 });

@@ -11,6 +11,6 @@ defmodule Khala.Repo.Migrations.CreateCampaignMembership do
     end
     create index(:campaign_memberships, [:user_id])
     create index(:campaign_memberships, [:campaign_id])
-
+    create index(:campaign_memberships, [:campaign_id, :user_id], unique: true)
   end
 end

@@ -22,7 +22,6 @@ const URL = {
 		characterGenerator: '/chargen',
 		home: '/',
 		dashboard: '/campaigns',
-		session: '/session',
 		sessionFor: function(sessionId) {
 			return 'campaigns/' + sessionId + '/session';
 		}
@@ -33,6 +32,9 @@ const URL = {
 		index: '/api/v1/campaigns',
 		show(campaignId) {
 			return '/api/v1/campaigns/' + campaignId;
+		},
+		invite(campaignId) {
+			return '/api/v1/campaigns/' + campaignId + '/players'
 		}
 	},
 

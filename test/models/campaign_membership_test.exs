@@ -3,7 +3,7 @@ defmodule Khala.CampaignMembershipTest do
 
   alias Khala.CampaignMembership
 
-  @valid_attrs %{role: "some content"}
+  @valid_attrs %{role: "some content", user_id: 1, campaign_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

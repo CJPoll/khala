@@ -29,7 +29,6 @@ defmodule Khala.CharacterController do
                   |> Khala.Token.user_for
                   |> Repo.preload(:characters)
                   |> Map.get(:characters)
-                  |> IO.inspect
 
     conn |> render("characters.json", characters: characters)
   end

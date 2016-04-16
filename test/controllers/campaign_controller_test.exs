@@ -21,17 +21,19 @@ defmodule Khala.CampaignControllerTest do
                         |> Khala.Repo.insert
 
     {:ok, campaign2} = %Khala.Campaign{}
-                        |> Khala.Campaign.changeset(%{name: "campaign1"}, owner: user2)
+                        |> Khala.Campaign.changeset(%{name: "campaign2"}, owner: user2)
                         |> Khala.Repo.insert
 
-    token = Khala.SessionController.create_token_for(user1)
+    {:ok, token} = Khala.Database.Token.create_for(user1)
+    {:ok, user2_token} = Khala.Database.Token.create_for(user2)
 
     state = %{
       user1: user1,
       user2: user2,
       campaign1: campaign1,
       campaign2: campaign2,
-      token: token}
+      token: token,
+      user2_token: user2_token}
 
     {:ok, state}
   end
@@ -93,17 +95,91 @@ defmodule Khala.CampaignControllerTest do
     data = json_response(conn, 200)
     campaigns = Map.get(data, "campaigns")
 
-    assert campaigns == [%{"campaign" =>
-        %{"id" => context.campaign1.id,
-          "name" => context.campaign1.name}}]
+    campaigns = conn
+                |> json_response(200)
+                |> Map.get("campaigns")
+
+    id = context.campaign1.id
+    name = context.campaign1.name
+    assert [%{
+        "id" => ^id,
+        "name" => ^name}] = campaigns
   end
 
   test "GET /campaigns/:campaign_id returns the campaign object", context do
     conn = get conn(), "/api/v1/campaigns/" <> Integer.to_string(context.campaign1.id), token: context.token.token
-    campaign = json_response(conn, 200)
+    campaign = conn
+                |> json_response(200)
+                |> Map.get("campaign")
 
-    assert campaign == %{"campaign" =>
-        %{"id" => context.campaign1.id,
-          "name" => context.campaign1.name}}
+    id = context.campaign1.id
+    name = context.campaign1.name
+    assert %{
+      "id" => ^id,
+      "name" => ^name} = campaign
+  end
+
+  test "GET /campaigns/:campaign_id returns the campaign's players", context do
+    conn = get conn(), "/api/v1/campaigns/" <> Integer.to_string(context.campaign1.id), token: context.token.token
+    response = json_response(conn, 200)
+    players = response
+              |> Map.get("campaign")
+              |> Map.get("players")
+
+    expected = [
+      "user.json"
+      |> Khala.UserView.render(%{user: context.user1})
+    |> Enum.reduce(%{}, fn({key, value}, acc) ->
+    Map.put_new(acc, Atom.to_string(key), value)
+    end)]
+
+
+    assert ^expected = players
+  end
+
+  test "POST/campaigns/:campaign_id/players returns a 200", context do
+    campaign_id = context.campaign1.id
+    conn = post conn(), "/api/v1/campaigns/" <> Integer.to_string(campaign_id) <> "/players",
+      token: context.token.token, email: context.user2.email
+
+    assert response(conn, 200)
+  end
+
+  test "POST /campaigns/:campaign_id/players adds a new player to the campaign", context do
+    campaign_id = context.campaign1.id
+    conn = post conn(), "/api/v1/campaigns/" <> Integer.to_string(campaign_id) <> "/players",
+      token: context.token.token, email: context.user2.email
+
+    users = campaign_id
+            |> Khala.Database.Campaign.get
+            |> Khala.Repo.preload(:users)
+            |> Map.get(:users)
+
+    memberships = Khala.Repo.all(Khala.CampaignMembership)
+
+    user2 = Enum.find(users, fn(user) -> user.id == context.user2.id end)
+
+    assert user2
+  end
+
+  test "POST /campaigns/:campaign_id/players returns the new campaign object", context do
+    campaign_id = context.campaign1.id
+    conn = post conn(), "/api/v1/campaigns/" <> Integer.to_string(campaign_id) <> "/players",
+      token: context.token.token, email: context.user2.email
+
+    players = conn
+              |> json_response(200)
+              |> Map.get("campaign")
+              |> Map.get("players")
+
+    assert length(players) == 2
+  end
+
+  test "POST /campaigns/:campaign_id/players requires the poster to be an owner", context do
+    campaign_id = context.campaign1.id
+    conn = post conn(), "/api/v1/campaigns/" <> Integer.to_string(campaign_id) <> "/players",
+      token: context.user2_token.token, email: context.user2.email
+
+    assert conn |> json_response(403)
   end
 end

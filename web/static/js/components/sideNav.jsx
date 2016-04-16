@@ -23,8 +23,8 @@ const SideNav = React.createClass({
 		NavigationActions.toggleSideNav();
 	},
 
-	goToGameSession() {
-		NavigationActions.changeUrl(URL.page.session);
+	goToCampaignsIndex() {
+		NavigationActions.changeUrl(URL.page.campaign.index);
 		NavigationActions.toggleSideNav();
 	},
 
@@ -36,7 +36,7 @@ const SideNav = React.createClass({
 			>
 				<MenuItem onClick={this.goToCharacterIndex}>My Characters</MenuItem>
 				<MenuItem onClick={this.goToCharacterGenerator}>Character Generator</MenuItem>
-				<MenuItem onClick={this.goToGameSession}>Game Session</MenuItem>
+				<MenuItem onClick={this.goToCampaignsIndex}>My Campaigns</MenuItem>
 			</LeftNav>
 		);
 	}

@@ -23,6 +23,12 @@ const Campaign = {
 		const token = SessionStore.token();
 
 		return axios.get(URL.campaign.show(campaignId) + '?token=' + token);
+	},
+	
+	invite(email, campaign) {
+		const token = SessionStore.token();
+
+		return axios.post(URL.campaign.invite(campaign.id), {email: email, token: token});
 	}
 };
 

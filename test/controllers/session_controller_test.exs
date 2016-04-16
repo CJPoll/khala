@@ -48,7 +48,6 @@ defmodule Khala.SessionControllerTest do
     assert %{"errors" => ["Unauthorized"]} == response
   end
 
-  @tag current: true
   test "DELETE /sessions", context do
     token = %Token{}
             |> Token.changeset(%{token: UUID.uuid4, expired: false, user_id: context.user.id})

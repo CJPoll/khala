@@ -21,8 +21,8 @@ const CampaignList = React.createClass({
 		}
 
 		return _.map(campaigns, (campaign) => {
-			return <ListItem key={'campaign_' + campaign.campaign.id} onTouchTap={onClick.bind(this, campaign.campaign)}>
-				{campaign.campaign.name}
+			return <ListItem key={'campaign_' + campaign.id} onTouchTap={onClick.bind(this, campaign)}>
+				{campaign.name}
 			</ListItem>;
 		});
 	},

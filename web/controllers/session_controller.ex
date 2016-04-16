@@ -10,7 +10,7 @@ defmodule Khala.SessionController do
   def create(conn, %{"user" => user_params} = params) do
     case User.login(user_params) do
       {:ok, user} ->
-        token = create_token_for(user)
+        {:ok, token} = Khala.Database.Token.create_for(user)
 
         conn
         |> render(Khala.TokenView, "token.json", %{token: token})

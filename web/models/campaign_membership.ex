@@ -9,7 +9,7 @@ defmodule Khala.CampaignMembership do
     timestamps
   end
 
-  @required_fields ~w(role)
+  @required_fields ~w(role user_id campaign_id)
   @optional_fields ~w()
 
   @doc """

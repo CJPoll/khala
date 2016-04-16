@@ -4,7 +4,6 @@ import Set from 'set';
 // @typedef { String } PlayerName
 
 const STATES = Object.freeze({
-	UNJOINED: 'unjoined',
 	CHOOSE_PLAYER: 'choose_player',
 	LOBBY: 'lobby'
 });
@@ -13,7 +12,7 @@ const STATES = Object.freeze({
  * @constructor
  */
 function GameSession() {
-	this._state = STATES.UNJOINED;
+	this._state = STATES.CHOOSE_PLAYER;
 	this._players = new Set();
 	this._session = null;
 	this._sessionId = null;

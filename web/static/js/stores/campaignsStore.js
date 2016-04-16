@@ -54,12 +54,12 @@ const CampaignsStore = Reflux.createStore({
 	},
 
 	onShowCompleted(response) {
-		const campaign = response.data;
-		const campaignId = campaign.campaign.id;
-		const campaignIndex = _.findIndex(this.state.campaigns, {campaign: {id: campaignId}});
+		const campaign = response.data.campaign;
+		const campaignId = campaign.id;
+		const campaignIndex = _.findIndex(this.state.campaigns, {id: campaignId});
 
 		if (campaignIndex === -1 /* Didn't find element */) {
-			this.state.campaigns.push(response.data);
+			this.state.campaigns.push(campaign);
 			this.state.selected = this.state.campaigns.length - 1;
 		} else {
 			this.state.campaigns[campaignIndex] = campaign;
@@ -76,6 +76,15 @@ const CampaignsStore = Reflux.createStore({
 		}
 
 		this.trigger(this.state);
+	},
+
+	onInviteCompleted(resp) {
+		this.state.campaigns[this.state.selected] = resp.data.campaign;
+		this.trigger(this.state);
+	},
+
+	onInviteFailed() {
+		NotificationActions.notify('Adding Player Failed');
 	}
 });
 

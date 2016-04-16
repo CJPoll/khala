@@ -14,7 +14,8 @@ defmodule Khala.Database.Campaign do
   end
 
   def get(id) do
-    Repo.get(Campaign, id)
+    Khala.Campaign
+    |> Repo.get(id)
   end
 
   def get_by_token(token) do

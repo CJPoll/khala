@@ -4,6 +4,7 @@ import Set from 'set';
 // @typedef { String } PlayerName
 
 const STATES = Object.freeze({
+	UNJOINED: 'unjoined',
 	CHOOSE_PLAYER: 'choose_player',
 	LOBBY: 'lobby'
 });
@@ -12,12 +13,18 @@ const STATES = Object.freeze({
  * @constructor
  */
 function GameSession() {
-	this._state = STATES.CHOOSE_PLAYER;
+	this._state = STATES.UNJOINED;
 	this._players = new Set();
 	this._session = null;
 	this._sessionId = null;
 	this._character = null;
 }
+
+function isInSession(sessionId) {
+	return this._sessionId == sessionId;
+}
+
+GameSession.prototype.isInSession = isInSession;
 
 /**
  * @return { boolean } Whether the client is in the 'unjoined' state
@@ -63,8 +70,10 @@ GameSession.prototype.addPlayer = addPlayer;
  * @param { SessionId } sessionId An identifier for the game session
  */
 function joinSession(channel, sessionId) {
+	debugger;
 	if (this._session !== null) {
 		this._session.leave();
+		this._players = new Set();
 	}
 
 	this._session = channel;
@@ -116,5 +125,11 @@ function setState(state) {
 }
 
 GameSession.prototype.setState = setState;
+
+function leaveSession() {
+	GameSession.bind(this)()
+}
+
+GameSession.prototype.leaveSession = leaveSession;
 
 export default GameSession;

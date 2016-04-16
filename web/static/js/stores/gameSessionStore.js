@@ -3,6 +3,8 @@ import NotificationActions from 'notificationActions';
 import SessionActions from 'sessionActions';
 import GameSessionActions from 'gameSessionActions';
 import SessionStore from 'sessionStore';
+import NavigationActions from 'navigationActions';
+import URL from 'url';
 
 import socket from 'socket';
 import uuid from 'uuid';
@@ -62,14 +64,19 @@ function onUserAck() {
  * @param { String } sessionId The id of the room to join
  */
 function onJoinSession(sessionId) {
-	if (!this.state.session) {
+	if (!this.state.isInSession(sessionId)) {
 		const channel = socket.channel('sessions:' + sessionId, {token: SessionStore.token()});
 		channel.join()
 		.receive('ok', () => {
 			this.state.joinSession(channel, sessionId);
 			channelSetup(channel);
+		})
+		.receive('error', () => {
+			NavigationActions.changeUrl(URL.page.campaign.index);
+			NotificationActions.notify('Could not join the session');
 		});
 	}
+
 	this.trigger(this.state);
 }
 

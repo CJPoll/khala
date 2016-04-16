@@ -23,7 +23,7 @@ const URL = {
 		home: '/',
 		dashboard: '/campaigns',
 		sessionFor: function(sessionId) {
-			return 'campaigns/' + sessionId + '/session';
+			return '/campaigns/' + sessionId + '/session';
 		}
 	},
 

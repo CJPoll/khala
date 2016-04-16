@@ -1,11 +1,15 @@
 defmodule Khala.SessionChannel do
   use Khala.Web, :channel
 
-  def join("sessions:" <> session_id, %{"token" => token }, socket) do
-    user = token |> Khala.Token.user_for
-    socket = socket |> assign(:user, user)
-    send self(), {:user_joined, user.name}
-    {:ok, socket}
+  def join("sessions:" <> campaign_id, %{"token" => token }, socket) do
+    if can_join?(token, campaign_id) do
+      user = token |> Khala.Token.user_for
+      socket = socket |> assign(:user, user)
+      send self(), {:user_joined, user.name}
+      {:ok, socket}
+    else
+      {:error, %{reason: "unauthorized"}}
+    end
   end
 
   # Channels can be used in a request/response fashion
@@ -47,5 +51,9 @@ defmodule Khala.SessionChannel do
 
   defp send_reply(socket, response) do
     {:reply, {:ok, response}, socket}
+  end
+
+  defp can_join?(token, campaign_id) do
+    Khala.Database.CampaignMembership.for_user_by_token(token, campaign_id)
   end
 end

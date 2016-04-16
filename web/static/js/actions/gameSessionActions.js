@@ -7,7 +7,8 @@ const GameSessionActions = Reflux.createActions([
 	'userAckReceived',
 	'joinSession',
 	'createSession',
-	'characterChosen'
+	'characterChosen',
+	'leaveSession'
 ]);
 
 export default GameSessionActions;

@@ -8,7 +8,9 @@ import URL from 'url';
 const JoinSessionButton = React.createClass({
 	joinSession(campaign) {
 		GameSessionActions.joinSession(campaign.id);
-		NavigationActions.changeUrl(URL.page.sessionFor(campaign.id));
+		const sessionUrl = URL.page.sessionFor(campaign.id)
+		console.log(sessionUrl);
+		NavigationActions.changeUrl(sessionUrl);
 	},
 
 	render() {

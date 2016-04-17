@@ -8,6 +8,7 @@ defmodule Khala.Campaign do
     field :name, :string
 
     many_to_many :users, User, join_through: CampaignMembership
+    has_many :characters, Khala.Character
 
     timestamps
   end

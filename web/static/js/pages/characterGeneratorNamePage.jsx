@@ -2,6 +2,8 @@ import React from 'react';
 import Input from 'input';
 import CharacterGeneratorActions from 'characterGeneratorActions';
 import CharacterGeneratorSubmit from 'characterGeneratorSubmit';
+import CampaignSelect from 'campaignSelect';
+import Row from 'row';
 
 const CharacterGeneratorNamePage = React.createClass({
 	changeFullName(event) {
@@ -13,6 +15,7 @@ const CharacterGeneratorNamePage = React.createClass({
 	},
 
 	render() {
+		const campaigns = this.props.campaigns;
 
 		return (
 			<div>
@@ -26,7 +29,10 @@ const CharacterGeneratorNamePage = React.createClass({
 					floatingLabelText="Character's Nickname"
 					hintText="Barry"
 					onChange={this.changeNickName} />
-				<CharacterGeneratorSubmit />
+				<CampaignSelect campaigns={campaigns} />
+				<Row>
+					<CharacterGeneratorSubmit />
+				</Row>
 			</div>
 		);
 	}

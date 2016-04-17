@@ -16,11 +16,15 @@ defmodule Khala.SessionChannelTest do
                   |> Khala.User.create_changeset(user_params)
                   |> Khala.Repo.insert
 
+    {:ok, campaign} = %Khala.Campaign{}
+                      |> Khala.Campaign.changeset(%{name: "Monteporte"}, owner: user)
+                      |> Khala.Database.Campaign.insert
+
     token_model = Khala.SessionController.create_token_for(user)
 
     {:ok, _, socket} =
       socket(user.id, %{})
-      |> subscribe_and_join(SessionChannel, "sessions:lobby", %{"token" => token_model.token})
+      |> subscribe_and_join(SessionChannel, "sessions:" <> Integer.to_string(campaign.id), %{"token" => token_model.token})
 
     {:ok, socket: socket}
   end
@@ -30,7 +34,7 @@ defmodule Khala.SessionChannelTest do
     assert_reply ref, :ok, %{"hello" => "there"}
   end
 
-  test "shout broadcasts to sessions:lobby", %{socket: socket} do
+  test "shout broadcasts to sessions:1", %{socket: socket} do
     push socket, "shout", %{"hello" => "all"}
     assert_broadcast "shout", %{"hello" => "all"}
   end

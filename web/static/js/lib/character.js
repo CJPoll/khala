@@ -5,14 +5,15 @@ import SessionStore from 'sessionStore';
 //import CharacterModel from 'models/character';
 
 const Character = {
-	build(fullName, nickname, stats) {
+	build(fullName, nickname, campaignId, stats) {
 		stats = _.mapKeys(stats, function(value, key) {
 			return key.toLowerCase();
 		});
 
 		const character = {
 			full_name: fullName,
-			nickname: nickname
+			nickname: nickname,
+			campaign_id: campaignId
 		};
 
 		const token = SessionStore.token();

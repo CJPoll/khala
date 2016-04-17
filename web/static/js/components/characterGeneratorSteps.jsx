@@ -6,10 +6,12 @@ import CharacterGeneratorStatsPage from 'characterGeneratorStatsPage';
 
 const CharacterGeneratorSteps = React.createClass({
 	render() {
+		const campaigns = this.props.campaigns;
+
 		return (
 			<Tabs>
 				<Tab label="Name" >
-					<CharacterGeneratorNamePage />
+					<CharacterGeneratorNamePage campaigns={campaigns}/>
 				</Tab>
 				<Tab label="Stats" >
 					<CharacterGeneratorStatsPage />

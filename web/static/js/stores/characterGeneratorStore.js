@@ -56,8 +56,13 @@ const CharacterGeneratorStore = Reflux.createStore({
 			stats: stats,
 			fullName: fullName,
 			nickname: nickName,
+			campaignId: null,
 			validCharacter() {
-				return this.stats.validStats() && this.fullName !== '' && this.fullName !== null && this.fullName !== undefined;
+				return this.stats.validStats() &&
+					this.fullName !== '' &&
+					this.fullName !== null &&
+					this.fullName !== undefined &&
+					this.campaignId !== null;
 			}
 		};
 	},
@@ -90,10 +95,16 @@ const CharacterGeneratorStore = Reflux.createStore({
 		this.trigger(this.state);
 	},
 
+	onChooseCampaign(campaignId) {
+		this.state.campaignId = campaignId;
+		this.trigger(this.state);
+	},
+
 	onSubmitCharacter() {
 		const data = Character.build(
 			this.state.fullName,
 			this.state.nickname,
+			this.state.campaignId,
 			this.state.stats.values()
 		);
 

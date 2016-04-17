@@ -5,7 +5,8 @@ const CharacterGeneratorActions = Reflux.createActions([
 	'decreaseStat',
 	'changeFullName',
 	'changeNickname',
-	'submitCharacter'
+	'submitCharacter',
+	'chooseCampaign'
 ]);
 
 export default CharacterGeneratorActions;

@@ -70,7 +70,6 @@ GameSession.prototype.addPlayer = addPlayer;
  * @param { SessionId } sessionId An identifier for the game session
  */
 function joinSession(channel, sessionId) {
-	debugger;
 	if (this._session !== null) {
 		this._session.leave();
 		this._players = new Set();

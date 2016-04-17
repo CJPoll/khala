@@ -7,7 +7,7 @@ defmodule Khala.SessionController do
   plug :scrub_params, "user" when action in [:create]
   plug :scrub_params, "token" when action in [:delete]
 
-  def create(conn, %{"user" => user_params} = params) do
+  def create(conn, %{"user" => user_params}) do
     case User.login(user_params) do
       {:ok, user} ->
         {:ok, token} = Khala.Database.Token.create_for(user)
@@ -43,21 +43,5 @@ defmodule Khala.SessionController do
             |> Repo.insert!
 
     token
-  end
-
-  def error_structure(401, %{changeset: changeset}) do
-    filter = fn({error_code, description}) ->
-      description
-    end
-
-    errors = Enum.map(changeset.errors, filter)
-
-    %{errors: errors}
-  end
-
-  def error_structure(401, _assigns) do
-    errors = ["Invalid login credentials"]
-
-    %{errors: errors}
   end
 end

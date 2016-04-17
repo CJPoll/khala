@@ -52,7 +52,7 @@ defmodule Khala.User do
     |> login(password)
   end
 
-  def login(nil, password) do
+  def login(nil, _password) do
     {:error, :invalid_credentials}
   end
 

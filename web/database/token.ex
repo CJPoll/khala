@@ -2,8 +2,8 @@ defmodule Khala.Database.Token do
   import Ecto.Query, [:from, 2]
 
   def get_by_token(token_uuid) do
-    token = Khala.Token
-            |> Khala.Repo.get_by(token: token_uuid)
+    Khala.Token
+    |> Khala.Repo.get_by(token: token_uuid)
   end
 
   def get_user_for(token_uuid) do

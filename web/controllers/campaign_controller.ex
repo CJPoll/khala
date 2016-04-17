@@ -45,7 +45,7 @@ defmodule Khala.CampaignController do
 
   def add_player(conn, %{"token" => token,
                          "campaign_id" => campaign_id,
-                         "email" => email} = params) do
+                         "email" => email}) do
 
     membership = Khala.Database.CampaignMembership.for_user_by_token(token, campaign_id)
     player = Khala.Database.User.get_by_email(email)

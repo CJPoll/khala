@@ -26,16 +26,9 @@ defmodule Khala.Token do
     |> validate_required(@required_fields)
   end
 
-  def user_for(token_uuid) do
-    token_uuid
-    |> lookup
-    |> Repo.preload(:user)
-    |> Map.get(:user)
-  end
-
   def lookup(token_uuid) do
-    token = __MODULE__
-            |> Repo.get_by(token: token_uuid)
+  __MODULE__
+  |> Repo.get_by(token: token_uuid)
   end
 
   def expire(token) do

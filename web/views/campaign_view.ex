@@ -5,7 +5,7 @@ defmodule Khala.CampaignView do
     %{campaigns: render_many(campaigns, __MODULE__, "campaign.json")}
   end
 
-  def render("show.json", %{campaign: campaign} = assigns) do
+  def render("show.json", %{campaign: campaign}) do
     %{campaign: render_one(campaign, __MODULE__, "campaign.json")}
   end
 

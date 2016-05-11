@@ -1,13 +1,13 @@
 defmodule Khala.CampaignController do
   use Khala.Web, :controller
 
-  alias Khala.Token
+  alias Khala.Database.Token
   alias Khala.Campaign
 
   plug :scrub_params, "campaign" when action in [:create]
 
   def create(conn, %{"campaign" => campaign_params, "token" => token}) do
-    current_user = Token.user_for(token)
+    current_user = Token.get_user_for(token)
 
     changeset = %Campaign{}
                 |> Campaign.changeset(campaign_params, owner: current_user)

@@ -3,7 +3,7 @@ defmodule Khala.SessionChannel do
 
   def join("sessions:" <> campaign_id, %{"token" => token }, socket) do
     if can_join?(token, campaign_id) do
-      user = token |> Khala.Token.user_for
+      user = token |> Khala.Database.Token.get_user_for
       socket = socket |> assign(:user, user)
       send self(), {:user_joined, user.name}
       {:ok, socket}

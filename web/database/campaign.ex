@@ -1,7 +1,6 @@
 defmodule Khala.Database.Campaign do
-  import Ecto.Query, only: [from: 2]
+  use Khala.Web, :database
 
-  alias Khala.Repo
   alias Khala.Campaign
   alias Khala.CampaignMembership
   alias Khala.User

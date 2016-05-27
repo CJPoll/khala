@@ -74,6 +74,17 @@ defmodule Khala.Web do
     end
   end
 
+  def database do
+    quote do
+      alias Khala.Repo
+      import Ecto.Query, only: [from: 2]
+
+      def preload(model, assoc) do
+        Repo.preload(model, assoc)
+      end
+    end
+  end
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """

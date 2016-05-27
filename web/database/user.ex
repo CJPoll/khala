@@ -1,4 +1,6 @@
 defmodule Khala.Database.User do
+  use Khala.Web, :database
+
   alias Khala.User
 
   def get(id), do: User |> Khala.Repo.get(id)

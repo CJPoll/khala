@@ -1,5 +1,5 @@
 defmodule Khala.Database.Token do
-  import Ecto.Query, [:from, 2]
+  use Khala.Web, :database
 
   def get_by_token(token_uuid) do
     Khala.Token

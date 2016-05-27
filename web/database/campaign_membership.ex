@@ -1,5 +1,5 @@
 defmodule Khala.Database.CampaignMembership do
-  import Ecto.Query, only: [from: 2]
+  use Khala.Web, :database
 
   def for_user_by_token(token_uuid) do
     from(cm in Khala.CampaignMembership,

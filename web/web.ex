@@ -16,6 +16,7 @@ defmodule Khala.Web do
   below.
   """
 
+
   def model do
     quote do
       use Ecto.Schema

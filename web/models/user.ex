@@ -4,7 +4,6 @@ defmodule Khala.User do
   alias Khala.Repo
   alias Khala.Campaign
   alias Khala.CampaignMembership
-
   schema "users" do
     field :email, :string
     field :name, :string
@@ -18,6 +17,8 @@ defmodule Khala.User do
 
     timestamps
   end
+
+  @type t :: %__MODULE__{}
 
   @required_fields ~w(email password name)
   @optional_fields ~w(password_confirmation)

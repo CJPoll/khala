@@ -10,6 +10,9 @@ defmodule Khala.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases,
+     dialyzer: [
+       plt_add_apps: [:phoenix]
+     ],
      deps: deps]
   end
 
@@ -39,7 +42,8 @@ defmodule Khala.Mixfile do
      {:guardian, "~> 0.9.0"},
      {:uuid, "~> 1.1"},
      {:comeonin, "~> 2.1"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:dialyxir, "~> 0.3.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

@@ -8,26 +8,28 @@ defmodule Khala.GameSession do
     characters: %{}
   end
 
-  @spec start_session :: t
+  @spec start_session :: {:ok, t} | :ignore | {:error, any}
   def start_session do
     GenServer.start_link(__MODULE__, [])
   end
 
-  @spec add_player(t, %Khala.User{}) :: :ok
+  @spec add_player(t, Khala.User.t) :: :ok
   def add_player(session, %Khala.User{} = player) do
     GenServer.cast(session, {:add_player, player})
   end
 
-  @spec character_for_player(t, %Khala.User{}) :: %Khala.Character{}
+  @spec character_for_player(t, Khala.User.t) :: %Khala.Character{}
   def character_for_player(session, player) do
     GenServer.call(session, {:character_for, player})
   end
 
+  @spec choose_character(t, Khala.User.t, %Khala.Character{})
+  :: :ok | {:error, :mismatched_character}
   def choose_character(session, player, character) do
     GenServer.call(session, {:choose_character, player, character})
   end
 
-  @spec players(t) :: [%Khala.User{}]
+  @spec players(t) :: [Khala.User.t]
   def players(session) do
     GenServer.call(session, :players)
   end

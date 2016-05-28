@@ -11,6 +11,10 @@ defmodule Khala.Token do
     timestamps
   end
 
+  @type t :: %__MODULE__{}
+
+  @type token_string :: String.t
+
   @all_fields [:token, :user_id, :expired]
   @required_fields [:token, :user_id, :expired]
 

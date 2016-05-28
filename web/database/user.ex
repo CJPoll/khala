@@ -3,12 +3,22 @@ defmodule Khala.Database.User do
 
   alias Khala.User
 
-  def get(id), do: User |> Khala.Repo.get(id)
+  @type success :: {:ok, Khala.Token.t}
+  @type error :: {:error, Ecto.Changeset.t}
+  @type get_response :: Khala.User.t | nil | no_return
+  @type id :: pos_integer | String.t
 
-  def get_by_token(token_uuid), do: Khala.Database.Token.get_user_for(token_uuid)
+  @spec get(id) :: get_response
+  def get(id), do: Khala.Repo.get(User, id)
 
+  @spec get_by_token(Khala.Token.token_string) :: get_response
+  def get_by_token(token), do: Khala.Database.Token.get_user_for(token)
+
+  @spec get_by_email(String.t) :: get_response
   def get_by_email(email), do: User |> Khala.Repo.get_by(email: email)
 
+  @spec join_campaign(id, id)
+  :: success | error
   def join_campaign(user_id, campaign_id) do
     params = %{role: "player", user_id: user_id, campaign_id: campaign_id}
 

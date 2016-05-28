@@ -13,6 +13,8 @@ defmodule Khala.Campaign do
     timestamps
   end
 
+  @type t :: %__MODULE__{}
+
   @required_fields ~w(name)
   @optional_fields ~w()
 

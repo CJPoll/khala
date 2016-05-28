@@ -1,6 +1,5 @@
 defmodule Khala.GameSession.Test do
   use Khala.ModelCase
-  require IEx
 
   setup do
     user = test_user("cjpoll@khala.com")
@@ -11,7 +10,7 @@ defmodule Khala.GameSession.Test do
 
     user = Khala.Database.User.preload(user, :characters)
 
-    {:ok, session} = Khala.GameSession.start_session
+    {:ok, session} = Khala.GameSession.start_session(campaign.id)
 
     state = %{
       campaign: campaign,
@@ -40,5 +39,22 @@ defmodule Khala.GameSession.Test do
     :ok = Khala.GameSession.choose_character(session, user, character)
 
     assert character == Khala.GameSession.character_for_player(session, user)
+  end
+
+  test "it creates a map representation of the session state", context do
+    user = context.user
+    session = context.session
+    character = context.character
+
+    Khala.GameSession.add_player(session, user)
+    Khala.GameSession.choose_character(session, user, character)
+
+    json = Khala.GameSession.to_json(session)
+
+    assert Map.has_key?(json, :characters)
+    assert Map.has_key?(json, :players)
+
+    assert json.characters == [character]
+    assert json.players == [user.name]
   end
 end

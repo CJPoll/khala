@@ -8,9 +8,32 @@ defmodule Khala.GameSession do
     characters: %{}
   end
 
-  @spec start_session :: {:ok, t} | :ignore | {:error, any}
-  def start_session do
-    GenServer.start_link(__MODULE__, [])
+  @spec start_session(Khala.Database.Campaign.id) :: {:ok, t} | :ignore | {:error, any}
+  def start_session(campaign_id) when is_integer(campaign_id) do
+    start_session(Integer.to_string(campaign_id))
+  end
+
+  def start_session(campaign_id) when is_binary(campaign_id) do
+    case GenServer.start_link(__MODULE__, [], [name: {:global, campaign_id}]) do
+      {:error, {:already_started, pid}} ->
+        {:ok, pid}
+      {:ok, session} ->
+        {:ok, session}
+    end
+  end
+
+  @spec session_for(Khala.Database.Campaign.id) :: t
+  def session_for(campaign_id) when is_integer(campaign_id) do
+    session_for(Integer.to_s(campaign_id))
+  end
+
+  def session_for(campaign_id) when is_binary(campaign_id) do
+    case :global.whereis_name(campaign_id) do
+      :undefined ->
+        start_session(campaign_id)
+      session ->
+        session
+    end
   end
 
   @spec add_player(t, Khala.User.t) :: :ok
@@ -32,6 +55,11 @@ defmodule Khala.GameSession do
   @spec players(t) :: [Khala.User.t]
   def players(session) do
     GenServer.call(session, :players)
+  end
+
+  @spec to_json(t) :: %{characters: [Khala.Character.t], players: [%{name: String.t}]}
+  def to_json(session) do
+    GenServer.call(session, :to_json)
   end
 
   def init(_args) do
@@ -57,6 +85,17 @@ defmodule Khala.GameSession do
 
   def handle_call(:players, _from, %{players: players} = state) do
     {:reply, players, state}
+  end
+
+  def handle_call(:to_json, _from, state) do
+    characters = Map.values(state.characters)
+    players = Enum.map(state.players, fn(user) -> user.name end)
+
+    json = %{
+      characters: characters,
+      players: players
+    }
+    {:reply, json, state}
   end
 
   def handle_cast({:add_player, player}, %{players: players} = state) do

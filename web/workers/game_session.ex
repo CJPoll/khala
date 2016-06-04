@@ -68,7 +68,7 @@ defmodule Khala.GameSession do
   end
 
   def handle_call({:character_for, player}, _from, state) do
-    character = Map.get(state.characters, player.id)
+    character = Map.get(state.characters, player.name)
     {:reply, character, state}
   end
 
@@ -89,10 +89,6 @@ defmodule Khala.GameSession do
 
   def handle_call(:to_json, _from, state) do
     characters = state.characters
-    |> Enum.map(fn({player_name, character}) ->
-                    {player_name, Map.take(character, [:full_name, :nickname, :physical, :mental, :social, :power, :finesse, :resilience])}
-       end)
-    |> Map.new
 
     players = Enum.map(state.players, fn(user) -> user.name end)
 

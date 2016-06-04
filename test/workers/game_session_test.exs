@@ -54,7 +54,7 @@ defmodule Khala.GameSession.Test do
     assert Map.has_key?(json, :characters)
     assert Map.has_key?(json, :players)
 
-    assert json.characters == [character]
+    assert json.characters == %{user.name => character}
     assert json.players == [user.name]
   end
 end

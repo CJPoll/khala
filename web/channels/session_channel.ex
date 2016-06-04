@@ -32,9 +32,9 @@ defmodule Khala.SessionChannel do
     character = Khala.Database.Character.get(character_id) |> Khala.Repo.preload(:user)
 
     result = socket
-             |> Map.get(:assigns)
-             |> Map.get(:session)
-             |> Khala.GameSession.choose_character(player, character)
+              |> Map.get(:assigns)
+              |> Map.get(:session)
+              |> Khala.GameSession.choose_character(player, character)
 
     case result do
       :ok ->
@@ -67,7 +67,7 @@ defmodule Khala.SessionChannel do
     session_state = Khala.GameSession.to_json(socket.assigns[:session])
 
     json = %{
-      state: session_state,
+      state: response_for(session_state),
       user: socket.assigns[:user].name
     }
 
@@ -101,5 +101,23 @@ defmodule Khala.SessionChannel do
 
   defp can_join?(token, campaign_id) do
     Khala.Database.CampaignMembership.for_user_by_token(token, campaign_id)
+  end
+
+  defp response_for(state) do
+    characters = state.characters
+                 |> Enum.map(fn({player_name, character}) ->
+                      {player_name, Map.take(character, [
+                          :full_name,
+                          :nickname,
+                          :physical,
+                          :mental,
+                          :social,
+                          :power,
+                          :finesse,
+                          :resilience])}
+                    end)
+                 |> Map.new
+
+    %{state | characters: characters}
   end
 end

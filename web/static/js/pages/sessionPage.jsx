@@ -6,8 +6,6 @@ import GameSessionActions from 'gameSessionActions';
 import ChooseCharacterPage from 'chooseCharacterPage';
 import NewSessionPage from 'newSessionPage';
 import GameSessionLobbyPage from 'gameSessionLobbyPage';
-import NavigationActions from 'navigationActions';
-import URL from 'url';
 
 import requireLogin from 'requireLogin';
 

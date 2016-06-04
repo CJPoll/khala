@@ -6,6 +6,7 @@ defmodule Khala.Database.Campaign do
   alias Khala.User
   alias Khala.Token
 
+  @type id :: pos_integer | String.t
   @type success :: {:ok, Khala.Campaign.t}
   @type error :: {:error, Ecto.Changeset.t}
 
@@ -17,7 +18,7 @@ defmodule Khala.Database.Campaign do
     else: {:error, changeset}
   end
 
-  @spec get(pos_integer)
+  @spec get(id)
   :: success | error
   def get(id) do
     Khala.Campaign

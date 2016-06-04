@@ -4,6 +4,7 @@ defmodule Khala.User do
   alias Khala.Repo
   alias Khala.Campaign
   alias Khala.CampaignMembership
+
   schema "users" do
     field :email, :string
     field :name, :string

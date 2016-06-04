@@ -29,11 +29,6 @@ defmodule Khala.Database.TokenTest do
     assert token.token == context.token.token
   end
 
-  test "gets user for given token", context do
-    user = Khala.Database.Token.get_user_for(context.token.token)
-    assert user.id == context.user.id
-  end
-
   test "inserts a token for the given user", context do
     {:ok, token} = Khala.Database.Token.create_for(context.user)
     assert token.user_id == context.user.id

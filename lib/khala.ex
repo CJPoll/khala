@@ -7,12 +7,8 @@ defmodule Khala do
     import Supervisor.Spec, warn: false
 
     children = [
-      # Start the endpoint when the application starts
       supervisor(Khala.Endpoint, []),
-      # Start the Ecto repository
       supervisor(Khala.Repo, []),
-      # Here you could define other workers and supervisors as children
-      # worker(Khala.Worker, [arg1, arg2, arg3]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

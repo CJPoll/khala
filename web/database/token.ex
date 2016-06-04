@@ -12,15 +12,6 @@ defmodule Khala.Database.Token do
     |> Khala.Repo.get_by(token: token)
   end
 
-  @spec get_user_for(Khala.Token.token_string)
-  :: get_response
-  def get_user_for(token) do
-    from(u in Khala.User,
-      join: t in Khala.Token, on: t.user_id == u.id,
-      where: t.token == ^token)
-    |> Khala.Repo.one
-  end
-
   @spec create_for(Khala.User.t)
   :: success | error
   def create_for(user) do

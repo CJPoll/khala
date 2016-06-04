@@ -6,7 +6,7 @@ defmodule Khala.CharacterController do
   plug :scrub_params, "character" when action in [:create]
 
   def create(conn, %{"character" => character_params, "token" => token}) do
-    user = Khala.Database.Token.get_user_for(token)
+    user = Khala.Database.User.get_by_token(token)
     character_params = character_params |> Map.put_new("user_id", user.id)
 
     character = %Character{user: user}
@@ -26,7 +26,7 @@ defmodule Khala.CharacterController do
 
   def index(conn, %{"token" => token}) do
     characters = token
-                  |> Khala.Database.Token.get_user_for
+                  |> Khala.Database.User.get_by_token
                   |> Repo.preload(:characters)
                   |> Map.get(:characters)
 

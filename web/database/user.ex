@@ -12,7 +12,12 @@ defmodule Khala.Database.User do
   def get(id), do: Khala.Repo.get(User, id)
 
   @spec get_by_token(Khala.Token.token_string) :: get_response
-  def get_by_token(token), do: Khala.Database.Token.get_user_for(token)
+  def get_by_token(token) do
+    from(u in Khala.User,
+      join: t in Khala.Token, on: t.user_id == u.id,
+      where: t.token == ^token)
+    |> Khala.Repo.one
+  end
 
   @spec get_by_email(String.t) :: get_response
   def get_by_email(email), do: User |> Khala.Repo.get_by(email: email)

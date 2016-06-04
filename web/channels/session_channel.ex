@@ -1,21 +1,23 @@
 defmodule Khala.SessionChannel do
   use Khala.Web, :channel
+  require Logger
 
   def join("sessions:" <> campaign_id, %{"token" => token }, socket) do
     if can_join?(token, campaign_id) do
-      user = token |> Khala.Database.Token.get_user_for
+      user = Khala.Database.User.get_by_token(token)
+
+      {:ok, session} = Khala.GameSession.session_for(campaign_id)
+      Khala.GameSession.add_player(session, user)
+
       socket = socket |> assign(:user, user)
-      send self(), {:user_joined, user.name}
+      socket = socket |> assign(:session, session)
+
+      send(self, :user_joined)
+
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
-  end
-
-  # Channels can be used in a request/response fashion
-  # by sending replies to requests from the client
-  def handle_in("ping", _payload, socket) do
-    socket |> send_reply(%{"hello" => "there"})
   end
 
   def handle_in("user:ack", _payload, socket) do
@@ -24,10 +26,32 @@ defmodule Khala.SessionChannel do
     {:noreply, socket}
   end
 
+  def handle_in("character:chosen", %{"character_id" => character_id}, socket) do
+    Logger.debug("===== Character Chosen ====")
+    player = socket.assigns[:user]
+    character = Khala.Database.Character.get(character_id) |> Khala.Repo.preload(:user)
+
+    result = socket
+             |> Map.get(:assigns)
+             |> Map.get(:session)
+             |> Khala.GameSession.choose_character(player, character)
+
+    case result do
+      :ok ->
+        send(self, :state_updated)
+        {:noreply, socket}
+      {:error, :mismatched_character} ->
+        {:reply, {:normal, "character:mismatched"}, socket}
+        push(socket, "character:mismatched", {})
+    end
+  end
+
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (sessions:lobby).
-  def handle_in("shout", payload, socket) do
-    broadcast socket, "shout", payload
+  def handle_in(event, payload, socket) do
+    Logger.error("Unknown Event: " <> event)
+    Logger.error("#{inspect payload}")
+    broadcast socket, event, payload
     {:noreply, socket}
   end
 
@@ -39,8 +63,30 @@ defmodule Khala.SessionChannel do
     {:noreply, socket}
   end
 
-  def handle_info({:user_joined, user_name}, socket) do
-    broadcast socket, "user:join", %{user: user_name}
+  def handle_info(:user_joined, socket) do
+    session_state = Khala.GameSession.to_json(socket.assigns[:session])
+
+    json = %{
+      state: session_state,
+      user: socket.assigns[:user].name
+    }
+
+    broadcast socket, "user:join", json
+
+    send(self, :state_updated)
+
+    {:noreply, socket}
+  end
+
+  def handle_info(:state_updated, socket) do
+    json = socket
+            |> Map.get(:assigns)
+            |> Map.get(:session)
+            |> Khala.GameSession.to_json
+
+    Logger.debug("#{inspect json}")
+    broadcast socket, "state:updated", json
+
     {:noreply, socket}
   end
 

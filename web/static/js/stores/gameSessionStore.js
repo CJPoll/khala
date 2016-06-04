@@ -7,7 +7,6 @@ import NavigationActions from 'navigationActions';
 import URL from 'url';
 
 import socket from 'socket';
-import uuid from 'uuid';
 import GameSession from 'gameSession';
 
 /**
@@ -29,9 +28,7 @@ function getInitialState() {
  * @param { String } userName The name of a user who just joined the game session
  */
 function onUserJoined(userName) {
-	this.state.addPlayer(userName);
 	NotificationActions.notify(userName + ' joined');
-	this.trigger(this.state);
 }
 
 /**
@@ -40,23 +37,10 @@ function onUserJoined(userName) {
  */
 function onUserLeft(userName) {
 	NotificationActions.notify(userName + ' left');
-	this.state.removePlayer(userName);
-	this.trigger(this.state);
 }
 
-/**
- * @return { undefined }
- * @param { String } userName The name of a user ack-ing a join
- */
-function onUserAckReceived(userName) {
-	this.state.addPlayer(userName);
-	this.trigger(this.state);
-}
-
-/**
- * @return { undefined }
- */
-function onUserAck() {
+function onCharacterChosen(character) {
+	this.state.characterChosen(character);
 }
 
 /**
@@ -66,6 +50,7 @@ function onUserAck() {
 function onJoinSession(sessionId) {
 	if (!this.state.isInSession(sessionId)) {
 		const channel = socket.channel('sessions:' + sessionId, {token: SessionStore.token()});
+
 		channel.join()
 		.receive('ok', () => {
 			this.state.joinSession(channel, sessionId);
@@ -82,10 +67,11 @@ function onJoinSession(sessionId) {
 
 /**
  * @return { undefined }
+ * @param { Object } sessionState The new session state from the server
  */
-function onCreateSession() {
-	const sessionId = uuid();
-	GameSessionActions.joinSession(sessionId);
+function onUpdateState(newState) {
+	this.state.update(newState);
+	this.trigger(this.state);
 }
 
 /**
@@ -99,11 +85,6 @@ function onLogout() {
 	}
 }
 
-function onCharacterChosen(character) {
-	this.state.characterChosen(character);
-	this.trigger(this.state);
-}
-
 /**
  * @return { undefined }
  * @param { Phoenix.Channel } channel The channel to set up
@@ -111,15 +92,15 @@ function onCharacterChosen(character) {
 function channelSetup(channel) {
 	channel.on('user:join', function(response) {
 		GameSessionActions.userJoined(response.user);
-		channel.push('user:ack', {});
 	});
 
 	channel.on('user:leave', function(response) {
 		GameSessionActions.userLeft(response.user);
 	});
 
-	channel.on('user:ack', function(response) {
-		GameSessionActions.userAckReceived(response.user);
+	channel.on('state:updated', function(response) {
+		console.log('State updated!', response);
+		GameSessionActions.updateState(response);
 	});
 }
 
@@ -128,12 +109,10 @@ const GameSessionStore = Reflux.createStore({
 	init: init,
 	getInitialState: getInitialState,
 	onCharacterChosen: onCharacterChosen,
+	onUpdateState: onUpdateState,
 	onUserJoined: onUserJoined,
 	onUserLeft: onUserLeft,
-	onUserAckReceived: onUserAckReceived,
-	onUserAck: onUserAck,
 	onJoinSession: onJoinSession,
-	onCreateSession: onCreateSession,
 	onLogout: onLogout
 });
 

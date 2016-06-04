@@ -32,7 +32,7 @@ defmodule Khala.GameSession do
       :undefined ->
         start_session(campaign_id)
       session ->
-        session
+        {:ok, session}
     end
   end
 
@@ -88,7 +88,12 @@ defmodule Khala.GameSession do
   end
 
   def handle_call(:to_json, _from, state) do
-    characters = Map.values(state.characters)
+    characters = state.characters
+    |> Enum.map(fn({player_name, character}) ->
+                    {player_name, Map.take(character, [:full_name, :nickname, :physical, :mental, :social, :power, :finesse, :resilience])}
+       end)
+    |> Map.new
+
     players = Enum.map(state.players, fn(user) -> user.name end)
 
     json = %{
@@ -111,6 +116,6 @@ defmodule Khala.GameSession do
   end
 
   defp set_character(characters, player, character) do
-    Map.put(characters, player.id, character)
+    Map.put(characters, player.name, character)
   end
 end

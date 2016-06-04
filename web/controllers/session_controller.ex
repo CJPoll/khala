@@ -13,7 +13,10 @@ defmodule Khala.SessionController do
         {:ok, token} = Khala.Database.Token.create_for(user)
 
         conn
-        |> render(Khala.TokenView, "token.json", %{token: token})
+        |> render(Khala.TokenView, "token.json", %{
+          user: user,
+          token: token
+        })
       {:error, reason} ->
         conn
         |> error(401, reason)

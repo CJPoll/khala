@@ -4,8 +4,14 @@ import _ from 'lodash';
  * @constructor
  * @return { undefined }
  */
-function Set() {
+function Set(array) {
 	this.representation = {};
+
+	if (Array.isArray(array)) {
+		array.forEach(function(member) {
+			this.representation[member] = member;
+		}.bind(this));
+	}
 }
 
 /**

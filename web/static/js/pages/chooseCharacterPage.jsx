@@ -28,7 +28,6 @@ const ChooseCharacterPage = React.createClass({
 		CharactersActions.index();
 	},
 
-
 	newCharacter() {
 		NavigationActions.changeUrl(URL.page.characterGenerator);
 	},

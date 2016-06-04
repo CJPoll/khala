@@ -49,7 +49,7 @@ defmodule Khala.Database.UserTest do
   end
 
   test "adds a user to a campaign as a player", context do
-    campaign_membership = Khala.Database.User.join_campaign(context.user.id, context.campaign.id)
+    Khala.Database.User.join_campaign(context.user.id, context.campaign.id)
 
     user = Khala.Database.User.get(context.user.id)
            |> Khala.Repo.preload(:campaigns)

@@ -32,7 +32,7 @@ defmodule Khala.ConnCase do
     end
   end
 
-  setup tags do
+  setup do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Khala.Repo)
 
     {:ok, conn: Phoenix.ConnTest.conn()}

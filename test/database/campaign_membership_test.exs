@@ -20,8 +20,6 @@ defmodule Khala.Database.CampaignMembershipTest do
 
     {:ok, user2_token} = Khala.Database.Token.create_for(user2)
 
-    valid_campaign_attributes = %{name: "Monteporte"}
-
     {:ok, campaign1} = %Khala.Campaign{}
                       |> Khala.Campaign.changeset(%{name: "Monteporte"}, owner: user1)
                       |> Khala.Database.Campaign.insert

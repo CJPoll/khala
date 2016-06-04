@@ -92,8 +92,6 @@ defmodule Khala.CampaignControllerTest do
 
   test "GET /campaigns only returns the user's campaigns", context do
     conn = get conn(), "/api/v1/campaigns", token: context.token.token
-    data = json_response(conn, 200)
-    campaigns = Map.get(data, "campaigns")
 
     campaigns = conn
                 |> json_response(200)
@@ -147,15 +145,12 @@ defmodule Khala.CampaignControllerTest do
 
   test "POST /campaigns/:campaign_id/players adds a new player to the campaign", context do
     campaign_id = context.campaign1.id
-    conn = post conn(), "/api/v1/campaigns/" <> Integer.to_string(campaign_id) <> "/players",
-      token: context.token.token, email: context.user2.email
+    post conn(), "/api/v1/campaigns/" <> Integer.to_string(campaign_id) <> "/players", token: context.token.token, email: context.user2.email
 
     users = campaign_id
             |> Khala.Database.Campaign.get
             |> Khala.Repo.preload(:users)
             |> Map.get(:users)
-
-    memberships = Khala.Repo.all(Khala.CampaignMembership)
 
     user2 = Enum.find(users, fn(user) -> user.id == context.user2.id end)
 

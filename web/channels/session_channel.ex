@@ -41,7 +41,7 @@ defmodule Khala.SessionChannel do
         send(self, :state_updated)
         {:noreply, socket}
       {:error, :mismatched_character} ->
-        {:reply, {:normal, "character:mismatched"}, socket}
+        send_reply(socket, "character:mismatched")
         push(socket, "character:mismatched", {})
     end
   end

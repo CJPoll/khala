@@ -18,3 +18,4 @@ erl_crash.dump
 priv/static/js/bundle.js
 *.swp
 out/
+tags

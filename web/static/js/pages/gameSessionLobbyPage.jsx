@@ -5,7 +5,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 
 const GameSessionLobbyPage = React.createClass({
 	renderPlayers(userNames) {
-		return userNames.map(player => <ListItem> {player} </ListItem>);
+		return userNames.map(player => <ListItem> {player.name} </ListItem>);
 	},
 
 	render() {

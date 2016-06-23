@@ -67,7 +67,7 @@ defmodule Khala.SessionChannel do
     session_state = Khala.GameSession.to_json(socket.assigns[:session])
 
     json = %{
-      state: response_for(session_state),
+      state: Khala.GameSession.View.to_json(session_state),
       user: socket.assigns[:user].name
     }
 
@@ -83,6 +83,8 @@ defmodule Khala.SessionChannel do
             |> Map.get(:assigns)
             |> Map.get(:session)
             |> Khala.GameSession.to_json
+            |> Khala.GameSession.View.to_json
+
 
     Logger.debug("#{inspect json}")
     broadcast socket, "state:updated", json

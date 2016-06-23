@@ -1,4 +1,3 @@
-import Set from 'set';
 import SessionStore from 'sessionStore';
 
 /**
@@ -11,7 +10,7 @@ import SessionStore from 'sessionStore';
  * @constructor
  */
 function GameSession() {
-	this._players = new Set();
+	this._players = [];
 	this._characters = {};
 	this._session = null;
 	this._sessionId = null;
@@ -59,7 +58,7 @@ GameSession.prototype.isInLobby = isInLobby;
 function joinSession(session, sessionId) {
 	if (this._session !== null) {
 		this._session.leave();
-		this._players = new Set();
+		this._players = [];
 		this._characters = {};
 	}
 
@@ -85,7 +84,7 @@ function leaveSession() {
 GameSession.prototype.leaveSession = leaveSession;
 
 function update(state) {
-	this._players = new Set(state.players);
+	this._players = state.players;
 	this._characters = state.characters;
 }
 

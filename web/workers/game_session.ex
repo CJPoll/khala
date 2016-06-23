@@ -88,13 +88,9 @@ defmodule Khala.GameSession do
   end
 
   def handle_call(:to_json, _from, state) do
-    characters = state.characters
-
-    players = Enum.map(state.players, fn(user) -> user.name end)
-
     json = %{
-      characters: characters,
-      players: players
+      characters: state.characters,
+      players: state.players
     }
     {:reply, json, state}
   end

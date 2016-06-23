@@ -72,8 +72,8 @@ Set.prototype.forEach = forEach;
  * (only takes <element> as a parameter)
  */
 function map(iteratee) {
-	const keys = _.keys(this.representation);
-	return _.map(keys, iteratee);
+	const values = _.values(this.representation);
+	return _.map(values, iteratee);
 }
 
 Set.prototype.map = map;

@@ -33,7 +33,7 @@ defmodule Khala.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.1.2"},
+    [{:phoenix, "~> 1.2"},
      {:phoenix_ecto, "~> 3.0.0-beta.2"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.3"},

@@ -37,8 +37,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :khala, Khala.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "cjpoll",
+  password: "",
   database: "khala_dev",
   hostname: "localhost",
   pool_size: 10

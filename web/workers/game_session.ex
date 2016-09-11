@@ -24,7 +24,7 @@ defmodule Khala.GameSession do
 
   @spec session_for(Khala.Database.Campaign.id) :: t
   def session_for(campaign_id) when is_integer(campaign_id) do
-    session_for(Integer.to_s(campaign_id))
+    session_for(Integer.to_string(campaign_id))
   end
 
   def session_for(campaign_id) when is_binary(campaign_id) do

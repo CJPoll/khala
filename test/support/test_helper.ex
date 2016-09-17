@@ -3,9 +3,10 @@ defmodule Khala.TestHelper do
     user_params = %{name: "cjpoll", email: email, password:
       "pass1", password_confirmation: "pass1"}
 
-    {:ok, user} = %Khala.User{}
-                  |> Khala.User.create_changeset(user_params)
-                  |> Khala.Repo.insert
+    {:ok, user} =
+      %Khala.User{}
+      |> Khala.User.create_changeset(user_params)
+      |> Khala.Repo.insert
 
     user
   end
@@ -13,9 +14,10 @@ defmodule Khala.TestHelper do
   def test_campaign(name, owner) do
     campaign_params = %{name: name}
 
-    {:ok, campaign} = %Khala.Campaign{}
-                      |> Khala.Campaign.changeset(campaign_params, [owner: owner])
-                      |> Khala.Repo.insert
+    {:ok, campaign} =
+      %Khala.Campaign{}
+      |> Khala.Campaign.changeset(campaign_params, [owner: owner])
+      |> Khala.Repo.insert
 
     campaign
   end
@@ -34,9 +36,10 @@ defmodule Khala.TestHelper do
       campaign_id: campaign.id
     }
 
-    {:ok, character} = %Khala.Character{}
-                        |> Khala.Character.changeset(character_params)
-                        |> Khala.Database.Character.insert
+    {:ok, character} =
+      %Khala.Character{}
+      |> Khala.Character.changeset(character_params)
+      |> Khala.Database.Character.insert
 
     character
   end

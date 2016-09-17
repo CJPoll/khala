@@ -9,26 +9,25 @@ defmodule Khala.CharacterController do
     user = Khala.Database.User.get_by_token(token)
     character_params = character_params |> Map.put_new("user_id", user.id)
 
-    character = %Character{user: user}
-                |> Character.changeset(character_params)
+    result =
+      %Character{user: user}
+      |> Character.changeset(character_params)
+      |> Repo.insert
 
-    if character.valid? do
-      case Repo.insert(character) do
-        {:ok, character} ->
-          conn |> render("character.json", character: character)
-        {:error, changeset} ->
-          conn |> error(400, changeset)
-      end
-    else
-      conn |> error(400, character)
+    case result do
+      {:ok, character} ->
+        conn |> render("character.json", character: character)
+      {:error, changeset} ->
+        conn |> error(400, changeset)
     end
   end
 
   def index(conn, %{"token" => token}) do
-    characters = token
-                  |> Khala.Database.User.get_by_token
-                  |> Repo.preload(:characters)
-                  |> Map.get(:characters)
+    characters =
+      token
+      |> Khala.Database.User.get_by_token
+      |> Repo.preload(:characters)
+      |> Map.get(:characters)
 
     conn |> render("characters.json", characters: characters)
   end

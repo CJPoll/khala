@@ -2,7 +2,7 @@ defmodule Khala.UserControllerTest do
   use Khala.ConnCase, async: true
 
   test "POST /users success" do
-    conn = post conn(), "/api/v1/users",
+    conn = post build_conn(), "/api/v1/users",
       user: %{email: "cjpoll@gmail.com", password: "password01",
         password_confirmation: "password01", name: "Cody"}
 
@@ -13,7 +13,7 @@ defmodule Khala.UserControllerTest do
   end
 
   test "POST /users invalid" do
-    conn = post conn(), "/api/v1/users",
+    conn = post build_conn(), "/api/v1/users",
       user: %{email: "cjpoll@gmail.com", password: "password01",
         password_confirmation: "password02", name: "Cody"}
 

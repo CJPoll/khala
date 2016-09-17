@@ -4,9 +4,10 @@ defmodule Khala.GameSession.Test do
   setup do
     user = test_user("cjpoll@khala.com")
     campaign = test_campaign("Monteporte", user)
-    character = "Jim Hold"
-                |> test_character(user, campaign)
-                |> Khala.Database.Character.preload(:user)
+    character =
+      "Jim Hold"
+      |> test_character(user, campaign)
+      |> Khala.Database.Character.preload(:user)
 
     user = Khala.Database.User.preload(user, :characters)
 
@@ -41,6 +42,7 @@ defmodule Khala.GameSession.Test do
     assert character == Khala.GameSession.character_for_player(session, user)
   end
 
+  @tag :current
   test "it creates a map representation of the session state", context do
     user = context.user
     session = context.session

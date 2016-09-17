@@ -11,39 +11,36 @@ defmodule Khala.SessionController do
     case User.login(user_params) do
       {:ok, user} ->
         {:ok, token} = Khala.Database.Token.create_for(user)
-
-        conn
-        |> render(Khala.TokenView, "token.json", %{
-          user: user,
-          token: token
-        })
+        conn |> render(Khala.TokenView, "token.json", %{user: user, token: token})
       {:error, reason} ->
-        conn
-        |> error(401, reason)
+        conn |> error(401, reason)
     end
   end
 
   def delete(conn, %{"token" => token_uuid}) do
-    success = token_uuid
-              |> Token.lookup
-              |> Token.expire
+    success =
+      token_uuid
+      |> Token.lookup
+      |> Token.expire
 
     case success do
       {:ok, %{expired: true}} ->
-        conn
-        |> render("logout.json", %{})
+        conn |> render("logout.json", %{})
       {:error, changset} ->
-        conn
-        |> error(401, %{changeset: changset})
+        conn |> error(401, %{changeset: changset})
     end
   end
 
   def create_token_for(user) do
     uuid = UUID.uuid4()
+    create_token_for(user, uuid)
+  end
 
-    token = %Token{}
-            |> Token.changeset(%{token: uuid, expired: false, user_id: user.id})
-            |> Repo.insert!
+  def create_token_for(user, uuid) do
+    token =
+      %Token{}
+      |> Token.changeset(%{token: uuid, expired: false, user_id: user.id})
+      |> Repo.insert!
 
     token
   end

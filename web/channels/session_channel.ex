@@ -9,8 +9,10 @@ defmodule Khala.SessionChannel do
       {:ok, session} = Khala.GameSession.session_for(campaign_id)
       Khala.GameSession.add_player(session, user)
 
-      socket = socket |> assign(:user, user)
-      socket = socket |> assign(:session, session)
+      socket =
+        socket
+        |> assign(:user, user)
+        |> assign(:session, session)
 
       send(self, :user_joined)
 
@@ -31,10 +33,11 @@ defmodule Khala.SessionChannel do
     player = socket.assigns[:user]
     character = Khala.Database.Character.get(character_id) |> Khala.Repo.preload(:user)
 
-    result = socket
-              |> Map.get(:assigns)
-              |> Map.get(:session)
-              |> Khala.GameSession.choose_character(player, character)
+    result =
+      socket
+      |> Map.get(:assigns)
+      |> Map.get(:session)
+      |> Khala.GameSession.choose_character(player, character)
 
     case result do
       :ok ->
@@ -79,11 +82,12 @@ defmodule Khala.SessionChannel do
   end
 
   def handle_info(:state_updated, socket) do
-    json = socket
-            |> Map.get(:assigns)
-            |> Map.get(:session)
-            |> Khala.GameSession.to_json
-            |> Khala.GameSession.View.to_json
+    json =
+      socket
+      |> Map.get(:assigns)
+      |> Map.get(:session)
+      |> Khala.GameSession.to_json
+      |> Khala.GameSession.View.to_json
 
 
     Logger.debug("#{inspect json}")
@@ -103,23 +107,5 @@ defmodule Khala.SessionChannel do
 
   defp can_join?(token, campaign_id) do
     Khala.Database.CampaignMembership.for_user_by_token(token, campaign_id)
-  end
-
-  defp response_for(state) do
-    characters = state.characters
-                 |> Enum.map(fn({player_name, character}) ->
-                      {player_name, Map.take(character, [
-                          :full_name,
-                          :nickname,
-                          :physical,
-                          :mental,
-                          :social,
-                          :power,
-                          :finesse,
-                          :resilience])}
-                    end)
-                 |> Map.new
-
-    %{state | characters: characters}
   end
 end

@@ -9,10 +9,12 @@ defmodule Khala.CampaignController do
   def create(conn, %{"campaign" => campaign_params, "token" => token}) do
     current_user = User.get_by_token(token)
 
-    changeset = %Campaign{}
-                |> Campaign.changeset(campaign_params, owner: current_user)
+    result =
+      %Campaign{}
+      |> Campaign.changeset(campaign_params, owner: current_user)
+      |> Khala.Database.Campaign.insert
 
-    case Khala.Database.Campaign.insert(changeset) do
+    case result do
       {:ok, campaign} ->
         conn |> render("show.json", campaign: campaign)
       {:error, changeset} ->
@@ -21,20 +23,22 @@ defmodule Khala.CampaignController do
   end
 
   def index(conn, %{"token" => token}) do
-    campaigns = token
-                |> Khala.Database.Campaign.get_by_token
-                |> Khala.Repo.preload(:users)
+    campaigns =
+      token
+      |> Khala.Database.Campaign.get_by_token
+      |> Khala.Repo.preload(:users)
 
     conn |> render("campaigns.json", campaigns: campaigns)
   end
 
   def show(conn, %{"token" => token, "campaign_id" => campaign_id}) do
-    campaign = token
-                |> Khala.Database.Campaign.get_by_token
-                |> Khala.Repo.preload(:users)
-                |> Enum.find(nil, fn(campaign) ->
-                                    Integer.to_string(campaign.id) == campaign_id
-                                  end)
+    campaign =
+      token
+      |> Khala.Database.Campaign.get_by_token
+      |> Khala.Repo.preload(:users)
+      |> Enum.find(nil, fn(campaign) ->
+           Integer.to_string(campaign.id) == campaign_id
+         end)
 
     if campaign do
       conn |> render("show.json", campaign: campaign)
@@ -53,8 +57,10 @@ defmodule Khala.CampaignController do
     if membership && membership.role == "owner" && player do
       {:ok, campaign_membership} = Khala.Database.User.join_campaign(player.id, campaign_id)
 
-      campaign = Khala.Database.Campaign.get(campaign_id)
-                 |> Khala.Repo.preload(:users)
+      campaign =
+        campaign_id
+        |> Khala.Database.Campaign.get
+        |> Khala.Repo.preload(:users)
 
       conn |> render("show.json", campaign: campaign)
     else
